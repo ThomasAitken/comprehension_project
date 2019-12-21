@@ -14,11 +14,11 @@ elif len(sys.argv) > 2:
 else:
     filepath = sys.argv[1]
     if not path.exists(filepath):
-		print("Input file \"{}\" does not exist! Please check that you specified the path correctly".format(filepath))
-	else:
+        print("Input file \"{}\" does not exist! Please check that you specified the path correctly".format(filepath))
+    else:
         with open(filepath, 'r') as input_file:
             parse_file()
 
 def parse_file(input_file):
-    
+
 
