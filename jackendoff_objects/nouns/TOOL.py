@@ -1,9 +1,11 @@
-from NON-LIVING(conc) import NonLivingEntity
+from thing import  GenericEntity
 
-class Tool(NonLivingEntity):
+class Tool(GenericEntity):
 
      def __init__(self):
         #time is an concrete count noun
         super().__init__(False, False)
+    
+    
 
     
