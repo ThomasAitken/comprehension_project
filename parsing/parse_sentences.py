@@ -8,3 +8,6 @@
 #Task: (i) Identify two locations or direction of movement with respect to some marker... 
 #             Marker can be non-living or living (as in above)
 #            
+
+for sentence in text:
+    

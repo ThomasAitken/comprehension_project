@@ -56,8 +56,20 @@ pavlova pavlova NOUN NN pobj
 
 #only picks up Bob = PERSON, Christmas = DATE (but really Christmas here is an *event*, and the event in question needn't even occur on the 25th of December)
 
-doc = nlp("I am not particularly impressed by the capabilities of the parser and labeller hitherto. I mean, it's probably better than what I could do in any reasonable timeframe, but it's clearly not perfect. I know that I have work to do in enriching the ontology.")
+# doc = nlp("I am not particularly impressed by the capabilities of the parser and labeller hitherto. I mean, it's probably better than what I could do in any reasonable timeframe, but it's clearly not perfect. I know that I have work to do in enriching the ontology.")
 
-for ent in doc.ents:
-    print(ent.text, ent.label_)
-    #absolutely zilch
+# for ent in doc.ents:
+#     print(ent.text, ent.label_)
+#     #absolutely zilch
+
+
+from benepar.spacy_plugin import BeneparComponent
+nlp.add_pipe(BeneparComponent("benepar_en2"))
+doc = nlp(u"The time for action is now. It's never too late to do something. Bob went to the supermarket to buy what he needed for Christmas. He was in a rush and missed some things - most importantly, the passionfruit that his aunt wanted for the pavlova. I am not particularly impressed by the capabilities of the parser and labeller hitherto. I mean, it's probably better than what I could do in any reasonable timeframe, but it's clearly not perfect. I know that I have work to do in enriching the ontology.")
+for sent in list(doc.sents):
+    print(sent._.parse_string)
+    #(S (NP (NP (DT The) (NN time)) (PP (IN for) (NP (NN action)))) (VP (VBZ is) (ADVP (RB now))) (. .))
+    print(sent._.labels)
+    #('S',)
+    print(list(sent._.children)[0])
+    #The time for action
