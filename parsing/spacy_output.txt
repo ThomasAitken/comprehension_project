@@ -1,0 +1,21 @@
+(S (NP (NP (DT The) (NN time)) (PP (IN for) (NP (NN action)))) (VP (VBZ is) (ADVP (RB now))) (. .))
+('S',)
+The time for action
+(S (NP (PRP It)) (VP (VBZ 's) (ADVP (RB never)) (ADJP (RB too) (JJ late) (S (VP (TO to) (VP (VB do) (NP (NN something))))))) (. .))
+('S',)
+It
+(S (NP (NNP Bob)) (VP (VBD went) (PP (TO to) (NP (DT the) (NN supermarket))) (S (VP (TO to) (VP (VB buy) (SBAR (WHNP (WP what)) (S (NP (PRP he)) (VP (VBD needed) (PP (IN for) (NP (NNP Christmas)))))))))) (. .))
+('S',)
+Bob
+(S (NP (PRP He)) (VP (VP (VBD was) (PP (IN in) (NP (DT a) (NN rush)))) (CC and) (VP (VBD missed) (NP (NP (DT some) (NNS things)) (: -) (ADVP (RBS most) (RB importantly)) (, ,) (NP (NP (DT the) (NN passionfruit)) (SBAR (WHNP (IN that)) (S (NP (PRP$ his) (NN aunt)) (VP (VBD wanted) (PP (IN for) (NP (DT the) (NNP pavlova)))))))))) (. .))
+('S',)
+He
+(S (NP (PRP I)) (VP (VBP am) (RB not) (VP (ADVP (RB particularly)) (VBN impressed) (PP (IN by) (NP (NP (DT the) (NNS capabilities)) (PP (IN of) (NP (DT the) (NN parser) (CC and) (NNP labeller))) (ADVP (RB hitherto)))))) (. .))
+('S',)
+I
+(S (S (NP (PRP I)) (VP (VBP mean) (, ,) (SBAR (S (NP (PRP it)) (VP (VBZ 's) (ADVP (RB probably)) (ADJP (ADJP (JJR better)) (PP (IN than) (SBAR (WHNP (WP what)) (S (NP (PRP I)) (VP (MD could) (VP (VB do) (PP (IN in) (NP (DT any) (JJ reasonable) (NN timeframe)))))))))))))) (, ,) (CC but) (S (NP (PRP it)) (VP (VBZ 's) (ADVP (RB clearly)) (RB not) (ADJP (JJ perfect)))) (. .))
+('S',)
+I mean, it's probably better than what I could do in any reasonable timeframe
+(S (NP (PRP I)) (VP (VBP know) (SBAR (IN that) (S (NP (PRP I)) (VP (VBP have) (NP (NP (NN work)) (SBAR (S (VP (TO to) (VP (VB do) (PP (IN in) (S (VP (VBG enriching) (NP (DT the) (NN ontology)))))))))))))) (. .))
+('S',)
+I

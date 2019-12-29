@@ -1,0 +1,125 @@
+(S (NP (NP (DT The) (NN time)) (PP (IN for) (NP (NN action)))) (VP (VBZ is) (ADVP (RB now))) (. .))
+('S',)
+The time for action
+(S (NP (PRP It)) (VP (VBZ 's) (ADVP (RB never)) (ADJP (RB too) (JJ late) (S (VP (TO to) (VP (VB do) (NP (NN something))))))) (. .))
+('S',)
+It
+(S (NP (NNP Bob)) (VP (VBD went) (PP (TO to) (NP (DT the) (NN supermarket))) (S (VP (TO to) (VP (VB buy) (SBAR (WHNP (WP what)) (S (NP (PRP he)) (VP (VBD needed) (PP (IN for) (NP (NNP Christmas)))))))))) (. .))
+('S',)
+Bob
+(S (NP (PRP He)) (VP (VP (VBD was) (PP (IN in) (NP (DT a) (NN rush)))) (CC and) (VP (VBD missed) (NP (NP (DT some) (NNS things)) (: -) (ADVP (RBS most) (RB importantly)) (, ,) (NP (NP (DT the) (NN passionfruit)) (SBAR (WHNP (IN that)) (S (NP (PRP$ his) (NN aunt)) (VP (VBD wanted) (PP (IN for) (NP (DT the) (NNP pavlova)))))))))) (. .))
+('S',)
+He
+(S (NP (PRP I)) (VP (VBP am) (RB not) (VP (ADVP (RB particularly)) (VBN impressed) (PP (IN by) (NP (NP (DT the) (NNS capabilities)) (PP (IN of) (NP (DT the) (NN parser) (CC and) (NNP labeller))) (ADVP (RB hitherto)))))) (. .))
+('S',)
+I
+(S (S (NP (PRP I)) (VP (VBP mean) (, ,) (SBAR (S (NP (PRP it)) (VP (VBZ 's) (ADVP (RB probably)) (ADJP (ADJP (JJR better)) (PP (IN than) (SBAR (WHNP (WP what)) (S (NP (PRP I)) (VP (MD could) (VP (VB do) (PP (IN in) (NP (DT any) (JJ reasonable) (NN timeframe)))))))))))))) (, ,) (CC but) (S (NP (PRP it)) (VP (VBZ 's) (ADVP (RB clearly)) (RB not) (ADJP (JJ perfect)))) (. .))
+('S',)
+I mean, it's probably better than what I could do in any reasonable timeframe
+(S (NP (PRP I)) (VP (VBP know) (SBAR (IN that) (S (NP (PRP I)) (VP (VBP have) (NP (NP (NN work)) (SBAR (S (VP (TO to) (VP (VB do) (PP (IN in) (S (VP (VBG enriching) (NP (DT the) (NN ontology)))))))))))))) (. .))
+('S',)
+I
+The the DET DT det
+time time NOUN NN nsubj
+for for ADP IN prep
+action action NOUN NN pobj
+is be AUX VBZ ROOT
+now now ADV RB advmod
+. . PUNCT . punct
+It -PRON- PRON PRP nsubj
+'s be AUX VBZ ROOT
+never never ADV RB neg
+too too ADV RB advmod
+late late ADJ JJ acomp
+to to PART TO aux
+do do AUX VB xcomp
+something something PRON NN dobj
+. . PUNCT . punct
+Bob Bob PROPN NNP nsubj
+went go VERB VBD ROOT
+to to PART TO prep
+the the DET DT det
+supermarket supermarket NOUN NN pobj
+to to PART TO aux
+buy buy VERB VB advcl
+what what PRON WP dobj
+he -PRON- PRON PRP nsubj
+needed need VERB VBD ccomp
+for for ADP IN prep
+Christmas Christmas PROPN NNP pobj
+. . PUNCT . punct
+He -PRON- PRON PRP nsubj
+was be AUX VBD ROOT
+in in ADP IN prep
+a a DET DT det
+rush rush NOUN NN pobj
+and and CCONJ CC cc
+missed miss VERB VBD conj
+some some DET DT det
+things thing NOUN NNS dobj
+- - PUNCT : punct
+most most ADV RBS advmod
+importantly importantly ADV RB advmod
+, , PUNCT , punct
+the the DET DT det
+passionfruit passionfruit NOUN NN dobj
+that that SCONJ IN dobj
+his -PRON- DET PRP$ poss
+aunt aunt NOUN NN nsubj
+wanted want VERB VBD relcl
+for for ADP IN prep
+the the DET DT det
+pavlova pavlova PROPN NNP pobj
+. . PUNCT . punct
+I -PRON- PRON PRP nsubj
+am be AUX VBP auxpass
+not not PART RB neg
+particularly particularly ADV RB advmod
+impressed impress VERB VBN ROOT
+by by ADP IN agent
+the the DET DT det
+capabilities capability NOUN NNS pobj
+of of ADP IN prep
+the the DET DT det
+parser parser NOUN NN pobj
+and and CCONJ CC cc
+labeller labeller PROPN NNP compound
+hitherto hitherto ADV RB conj
+. . PUNCT . punct
+I -PRON- PRON PRP nsubj
+mean mean VERB VBP parataxis
+, , PUNCT , punct
+it -PRON- PRON PRP nsubj
+'s be AUX VBZ ROOT
+probably probably ADV RB advmod
+better well ADJ JJR acomp
+than than SCONJ IN prep
+what what PRON WP dobj
+I -PRON- PRON PRP nsubj
+could could VERB MD aux
+do do AUX VB pcomp
+in in ADP IN prep
+any any DET DT det
+reasonable reasonable ADJ JJ amod
+timeframe timeframe NOUN NN pobj
+, , PUNCT , punct
+but but CCONJ CC cc
+it -PRON- PRON PRP nsubj
+'s be AUX VBZ conj
+clearly clearly ADV RB advmod
+not not PART RB neg
+perfect perfect ADJ JJ acomp
+. . PUNCT . punct
+I -PRON- PRON PRP nsubj
+know know VERB VBP ROOT
+that that SCONJ IN mark
+I -PRON- PRON PRP nsubj
+have have AUX VBP ccomp
+work work NOUN NN dobj
+to to PART TO aux
+do do AUX VB relcl
+in in ADP IN prep
+enriching enrich VERB VBG pcomp
+the the DET DT det
+ontology ontology NOUN NN dobj
+. . PUNCT . punct
