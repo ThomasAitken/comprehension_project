@@ -1,6 +1,6 @@
 import spacy
 
-nlp = spacy.load("en_core_web_sm")
+nlp = spacy.load("en_core_web_md")
 # doc = nlp("Apple is looking at buying U.K. startup for $1 billion")
 
 # for token in doc:
@@ -64,7 +64,7 @@ pavlova pavlova NOUN NN pobj
 
 
 from benepar.spacy_plugin import BeneparComponent
-nlp.add_pipe(BeneparComponent("benepar_en2_large"))
+nlp.add_pipe(BeneparComponent("benepar_en2"))
 doc = nlp(u"The time for action is now. It's never too late to do something. Bob went to the supermarket to buy what he needed for Christmas. He was in a rush and missed some things - most importantly, the passionfruit that his aunt wanted for the pavlova. I am not particularly impressed by the capabilities of the parser and labeller hitherto. I mean, it's probably better than what I could do in any reasonable timeframe, but it's clearly not perfect. I know that I have work to do in enriching the ontology.")
 for sent in list(doc.sents):
     print(sent._.parse_string)
@@ -73,6 +73,11 @@ for sent in list(doc.sents):
     #('S',)
     print(list(sent._.children)[0])
     #The time for action
+    try:
+        for token in sent:
+            print(token.text)
+    except Exception as e:
+        print(e)
 
 for token in doc:
     print(token.text, token.lemma_, token.pos_, token.tag_, token.dep_)

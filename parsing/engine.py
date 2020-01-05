@@ -5,6 +5,7 @@ import spacy
 from benepar.spacy_plugin import BeneparComponent
 import logging
 import re
+import parse_sentences
 
 
 def parse_file(file_path: str) -> list:
@@ -35,6 +36,7 @@ def parse_file(file_path: str) -> list:
     nlp.add_pipe(BeneparComponent("benepar_en2"))
     with open(file_path, "r") as f:
         file_data = f.read()
+        doc = nlp(file_data)
         grammatical_sentences = []
 
 
