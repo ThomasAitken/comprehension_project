@@ -19,9 +19,12 @@ def create_table(conn, sql_command: str):
         print(e)
 
 #entry tuple with three parts 
-def add_entry(entry: tuple):
+def add_entry(entry: tuple, table_name: str):
     conn = sqlite3.connect('category_master.db')
-    add_command = "INSERT INTO taxonomy VALUES ('%s','%s', '%s')" % entry
+    if table_name == "nouns":
+        add_command = "INSERT INTO nouns VALUES ('%s','%s', '%s')" % entry
+    else:
+        pass
     try:
         c = conn.cursor()
         c.execute(add_command)
@@ -29,11 +32,12 @@ def add_entry(entry: tuple):
         print(e)
 
 
-def find_entry(entry: tuple) -> list:
+def find_entry(entry: tuple, table_name: str) -> list:
     conn = sqlite3.connect('category_master.db')
-    select_command = """
-        SELECT FROM taxonomy WHERE concept = '%s' AND part_of_speech = '%s'
-    """
+    if table_name == "nouns":
+        select_command = "SELECT FROM nouns WHERE concept = '%s' AND category = '%s'" % entry
+    else:
+        select_command = "SELECT FROM verbs WHERE concept = '%s' AND category = '%s' AND CLASS = '%s'" % entry
     try:
         c = conn.cursor()
         c.execute(select_command)
@@ -44,15 +48,14 @@ def find_entry(entry: tuple) -> list:
         return []
 
 
-
 if __name__ == "__main__":
     conn = sqlite3.connect('category_master.db')
     create_command = """
-        CREATE TABLE IF NOT EXISTS taxonomy (
-        concept_group TEXT NOT NULL,
+        CREATE TABLE IF NOT EXISTS nouns (
+        concept TEXT NOT NULL,
         category TEXT NOT NULL,
-        part_of_speech TEXT NOT NULL,
-        CONSTRAINT PK_Concept PRIMARY KEY (concept_group, category)
+        similarity_vector TEXT NOT NULL,
+        CONSTRAINT PK_Concept PRIMARY KEY (concept, category)
         )
     """
     create_table(conn, create_command)
