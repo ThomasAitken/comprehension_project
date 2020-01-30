@@ -1,4 +1,4 @@
-from thing import  GenericEntity
+from .thing import  GenericEntity
 
 class Tool(GenericEntity):
 
