@@ -1,11 +1,12 @@
 import sys
+sys.path.append('/home/crastollgorton/comprehension_project')
 import os
 from os import path
 import spacy
 from benepar.spacy_plugin import BeneparComponent
 import logging
 import re
-import parse_sentences
+from text_compute import parse_sentences
 
 
 def parse_file(file_path: str) -> list:
@@ -37,7 +38,8 @@ def parse_file(file_path: str) -> list:
     with open(file_path, "r") as f:
         file_data = f.read()
         doc = nlp(file_data)
-        grammatical_sentences = []
+        grammatical_sentences = list(doc.sents)
+        parse_sentences(grammatical_sentences)
 
 
 
