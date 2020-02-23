@@ -22,7 +22,7 @@ def create_table(conn, sql_command: str):
 def add_entry(entry: tuple, table_name: str):
     conn = sqlite3.connect('category_master.db')
     if table_name == "nouns":
-        add_command = "INSERT INTO nouns VALUES ('%s','%s', '%s')" % entry
+        add_command = "INSERT INTO nouns VALUES ('%s','%s', '%s', '%s')" % entry
     else:
         pass
     try:
@@ -35,9 +35,9 @@ def add_entry(entry: tuple, table_name: str):
 def find_entry(entry: tuple, table_name: str) -> list:
     conn = sqlite3.connect('category_master.db')
     if table_name == "nouns":
-        select_command = "SELECT FROM nouns WHERE concept = '%s' AND category = '%s'" % entry
+        select_command = "SELECT FROM nouns WHERE name = '%s' AND category = '%s'" % entry
     else:
-        select_command = "SELECT FROM verbs WHERE concept = '%s' AND category = '%s' AND CLASS = '%s'" % entry
+        select_command = "SELECT FROM verbs WHERE name = '%s' AND category = '%s' AND CLASS = '%s'" % entry
     try:
         c = conn.cursor()
         c.execute(select_command)
@@ -52,10 +52,11 @@ if __name__ == "__main__":
     conn = sqlite3.connect('category_master.db')
     create_command = """
         CREATE TABLE IF NOT EXISTS nouns (
-        concept TEXT NOT NULL,
+        name TEXT NOT NULL,
         category TEXT NOT NULL,
         similarity_vector TEXT NOT NULL,
-        CONSTRAINT PK_Concept PRIMARY KEY (concept, category)
+        atomic_sim_vector TEXT NOT NULL,
+        CONSTRAINT PK_Concept PRIMARY KEY (name, category)
         )
     """
     create_table(conn, create_command)

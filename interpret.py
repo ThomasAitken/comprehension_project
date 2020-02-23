@@ -1,13 +1,14 @@
 import sys
-sys.path.append('/home/crastollgorton/comprehension_project')
+sys.path.insert(0, '/home/comprehension_project')
+# sys.path.append('/home/crastollgorton/comprehension_project')
 import os
 from os import path
 import spacy
 from benepar.spacy_plugin import BeneparComponent
 import logging
 import re
-from text_compute import parse_sentences
-
+from parsing.text_compute import parse_sentences
+import pdb
 
 def parse_file(file_path: str) -> list:
     def convert_bytes(num):
@@ -27,19 +28,19 @@ def parse_file(file_path: str) -> list:
         return convert_bytes(file_info.st_size)
 
     file_size = get_file_size(file_path)
-    if 'GB' or 'TB' in file_size:
+    if re.search(r'[GT]B', file_size):
         logging.error("File size is %s. This is too large!" % file_size)
         return []
     else:
-        return ["Hello world!"]
-
-    nlp = spacy.load("en_core_web_sm")
-    nlp.add_pipe(BeneparComponent("benepar_en2"))
-    with open(file_path, "r") as f:
-        file_data = f.read()
-        doc = nlp(file_data)
-        grammatical_sentences = list(doc.sents)
-        parse_sentences(grammatical_sentences)
+        nlp = spacy.load("en_core_web_lg")
+        nlp.add_pipe(BeneparComponent("benepar_en2"))
+        with open(file_path, "r") as f:
+            file_data = f.read()
+            doc = nlp(file_data)
+            grammatical_sentences = list(doc.sents)
+            parse_sentences(grammatical_sentences)
+            # print(list(grammatical_sentences[0]))
+            # pdb.set_trace()
 
 
 
