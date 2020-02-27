@@ -1,0 +1,25 @@
+Adjectives can be 'objective' or 'perspectival'...
+
+Perspectival = 'delicious', 'revolting', 'awesome'
+
+Objective = 'large', 'hairy', 'smelly' [ambiguous]
+
+Lots of edge cases... everything a matter of perception... Probabilistic models
+
+
+
+
+Challenge: how can we take simple descriptive paragraph capturing a scene, say, inside a room, and turn it into a model such that questions can be asked about which objects are on which surfaces, which things would break if they fell over, what path would a human take to navigate around the objects, and so on. Obviously that requires a 'visual'-style representation (i.e. a representation involving quantities - geometry, physics, i.e. similar to game engine sort of representation). BUT hopefully this kind of project could be hooked up to such a representation. 
+
+Idea for initial step towards this extension of representation: create generic models for basic 'settings/locations' and basic objects/entities that can be placed in such settings. Then every time certain words/concepts occur in text, those models are brought into memory for reference == richer model.
+
+Long-term plan for learning rich representations: 
+
+    (i) first take text-based reasoning as far as possible, similar to this project; 
+    (ii) run deep learning system inside rich virtual world ('Second Life'-style) edited so that everything is labelled according to its category (down to furniture, etc (already happens to a large extent in a lot of RPGs, at least as far as portable items are concerned)); with 100s or 1000s of hours of immersion in world, the system will ultimately accumulate 100s or 1000s of samples of each category from lots of different angles... Hopefully system then able to recognise new instances of such categories that are similar from multiple angles.
+
+In the meantime, need to develop further data/memory systems. An event/agent log... Most conceptually basic representation of such data I can think of (very bulky) is some kind of JSON dict where main key is the agent code, and then this links to another dictionary with keys "properties" (list) and "events" (which happens to encode all the state transitions the agent has undergone and the last known state). 
+
+Then also specific entity memory... Because of course concept memory is not enough; we want rich memories associated with specific buildings, tools, games, landmarks, places, etc. ... Now this may be not best implemented in this kind of text-based context.
+
+These could be very neatly compartmentalised in theory, although this would of course come with massive redundancy - but, frankly, static memory capacity doesn't seem like a huge theoretical bottleneck.. Of course the memory storage that would be going on after 1000s of hours of training in a rich virtual world where events are constantly being perceived, new properties gleaned from objects, and so on

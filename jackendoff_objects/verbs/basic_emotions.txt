@@ -1,0 +1,45 @@
+EMOTIONS [INCHOATE FUMBLINGS]: 
+    MOST ESSENTIAL DICHOTOMY: 
+        {SADNESS, HAPPINESS} or (let's say) "VALENCE"
+    INFLECTED BY 
+        INTENSITY
+    WITH 
+        DIRECTIONALITY
+
+HOPE,FEAR = EMERGENT DICHOTOMY = EXPECTATION(VALENCE), where EXPECTATION reduced to: DIRECTION is FUTURE EVENTS
+    EXCITED ANTICIPATION = HOPE with INTENSITY ++
+    TERROR = FEAR with INTENSITY ++   
+
+What is ANGER?: 
+    some mixture (varying) of SADNESS [=negative VALENCE] and FEAR [= negative EXPECTATION(VALENCE)] with relatively high INTENSITY with primary DIRECTION = some CURRENT EVENT ?
+
+What is INDIGNATION?
+    a complex form of ANGER with primary DIRECTION = specific EVENT/S relating to violation of moral rules/structure
+    
+FORMULA:
+    Let V be VALENCE (defined on R perhaps on (-1,1), SADNESS limit = -1 (DESPAIR?), HAPPINESS limit = 1 (=ECSTASY?)), let I be INTENSITY (again defined on R on (0,1) with obvious limits). A possible equation and geometric representation:
+
+        Three-dimensional:
+            arbitrary emotion e = I*[i j V] with origin (0 ,0, 0), where the i & j terms in [i, j, V] define the DIRECTIONALITY and V just 'bends' the vector 'up' and 'down'.
+            
+            Geometric interpretation: 
+                Time is x-axis (negative values = past, positive values = future, in whatever scale, e.g. minutes) and events are distributed across time (future events included because agents can forecast future events ('expectation' emotions (e.g. hope, fear) need to point to the future)). No event can lie within the unit sphere centred on (0, 0, 0) because that defines the space for the emotion vectors. Events are dots (or labels), specified by (x, y, 0); simultaneous events (or events perceived to be essentially simultaneous in memory, or at the relevant discrete timescale) are somehow stacked on 'top' of each other in the y axis perhaps according to the spatial location of the event relative to some fixed landmark (e.g. a house or building in the agent's world)... (BUT once they are placed there may have to be some arbitrary shifting of event location along the y axis to prevent event co-linearities (completely disallowed if the vector is to point to one event only).)
+
+                The VALENCE 'bends' the direction vector but does not affect anything (the idea is that no matter how the vector is bent along the z axis, it's still picking out the same event in the x-y space, even if not strictly 'pointing' to it (could encode the same info by just altering the placement of the vector along the z axis but that feels slightly uglier)).
+        
+In the case of emotions which have a vague directionality (a case which, unfortunately, applies to many emotions in many circumstances), the equation and representation would have to be a lot more complicated; evidently, a vector set would have to be defined to represent this emotion, rather than a single vector (you might think you'd want to define a continuous vector space except that this would make it impossible to exclude irrelevant events in between relevant events). And if we wanted to represent probabilistic information regarding the relative importance of contributing events, I'm thinking we'd probably have to define another dimension to do that in a non-hacky way (actually, it's already seeming hacky).
+
+
+IS THIS 'MODEL' at all USEFUL?
+    umm.... maybe? I mean if this is a decent compression of emotional states then hell yeah because compression is good and shit. also suppose we want to create a machine/robot with emotions, this model could be useful... 'i'm going to represent INDIGNATION with INTENSITY I in my external presentation now because I believe that people should follow rule X and an EVENT just happened where someone violated that rule.'  
+
+
+TELOS: ACQUISITION [object: concrete (object) OR abstract (emotional state, pleasure, affection)]
+     :
+        SUBGOALS: ACQUISITION or MOVEMENT
+
+
+
+NEED TO DEEP-LEARN FREE INDIRECT STYLE LOL
+
+
