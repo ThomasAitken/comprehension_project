@@ -1,6 +1,6 @@
 import spacy
 
-nlp = spacy.load("en_core_web_md")
+nlp = spacy.load("en_core_web_lg")
 
 from benepar.spacy_plugin import BeneparComponent
 nlp.add_pipe(BeneparComponent("benepar_en2"))
@@ -10,12 +10,16 @@ doc = nlp(u"The alpine wildflowers are in bloom all around us. Truly a magnifice
 for sent in list(doc.sents):
     print(sent._.parse_string)
     print(sent._.labels)
-    for token in sent:
-        print(token.text, token.lemma_, token.pos_, token.tag_, token.dep_)
+    print(list(sent._.constituents))
+    # for token in sent:
+    #     print(token.text, token.lemma_, token.pos_, token.tag_, token.dep_)
 
 
 '''(S (NP (DT The) (JJ alpine) (NNS wildflowers)) (VP (VBP are) (PP (IN in) (NP (NN bloom))) (PP (DT all) (IN around) (NP (PRP us)))) (. .))
 ('S',)
+[The alpine wildflowers are in bloom all around us., The alpine wildflowers, The, alpine, wildflowers, are in bloom all around us, are, in bloom, in, bloom, all around us, all, around, us, .]
+
+
 The the DET DT det
 alpine alpine ADJ JJ compound
 wildflowers wildflower NOUN NNS nsubj
