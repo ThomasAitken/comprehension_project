@@ -26,6 +26,7 @@ supermarket supermarket NOUN NN pobj
 . . PUNCT . punct
 
 Each morning TIME
+
 Each each DET DT det
 morning morning NOUN NN npadvmod
 , , PUNCT , punct
