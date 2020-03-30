@@ -8,7 +8,7 @@
 #Task: (i) Identify two locations or direction of movement with respect to some marker... 
 #             Marker can be non-living or living (as in above)
 #
-from parsing.constituency_parsing import dialogue_determine, neaten_sentences
+from parsing.constituency import constituency_parse
 import sys
 # print(sys.path)  
 from database.sqlite import *
@@ -18,6 +18,13 @@ from parsing.utils import category_tokens
 import spacy
 import math
 import json
+
+
+def parse_sentences_updated(sentences: list):
+    for sent in sentences:
+        cleaned_sent = constituency_parse(sent)
+        print("NP: ", cleaned_sent.noun_phrase, " VP: ", cleaned_sent.verb_phrase, " SUB: ", cleaned_sent.subordinates, " DIA: ", cleaned_sent.dialogue_meta)
+
 
 def parse_sentences(sentences: list):
     nouns = []

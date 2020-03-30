@@ -1,3 +1,7 @@
+#!/home/crastollgorton/ai-env/bin/python
+
+
+
 import sys
 sys.path.insert(0, '/home/comprehension_project')
 # sys.path.append('/home/crastollgorton/comprehension_project')
@@ -7,9 +11,9 @@ import spacy
 from benepar.spacy_plugin import BeneparComponent
 import logging
 import re
-from parsing.text_compute import parse_sentences
+from parsing.text_compute import parse_sentences_updated
 import pdb
-
+logger = logging.getLogger(__name__)
 def parse_file(file_path: str) -> list:
     def convert_bytes(num):
         """
@@ -29,18 +33,24 @@ def parse_file(file_path: str) -> list:
 
     file_size = get_file_size(file_path)
     if re.search(r'[GT]B', file_size):
-        logging.error("File size is %s. This is too large!" % file_size)
+        logger.error("File size is %s. This is too large!" % file_size)
         return []
     else:
         nlp = spacy.load("en_core_web_lg")
         nlp.add_pipe(BeneparComponent("benepar_en2"))
-        with open(file_path, "r") as f:
-            file_data = f.read()
-            doc = nlp(file_data)
+        f = open(file_path, "r")
+        for idx,row in enumerate(filter(lambda line: line != "", map(lambda line: line.strip('\n'), f.readlines()))):
+            if idx == 0:
+                title = row
+                print(title)
+                continue
+            else:
+                doc = nlp(row)
             grammatical_sentences = list(doc.sents)
-            parse_sentences(grammatical_sentences)
+            parse_sentences_updated(grammatical_sentences)
             # print(list(grammatical_sentences[0]))
             # pdb.set_trace()
+        f.close()
 
 
 
@@ -50,16 +60,16 @@ def parse_file(file_path: str) -> list:
 if __name__ == "__main__":
     #txt input file
     if len(sys.argv) == 1:
-        logging.error("No input file specified")
+        logger.error("No input file specified")
     elif len(sys.argv) > 2:
-        logging.error("More than one argument given. Please give me only one file path: ")
+        logger.error("More than one argument given. Please give me only one file path: ")
         file_path = input()
         if re.search(r'\s', file_path):
-            logging.error("Stop trolling me, no whitespace allowed. I'm giving up on you now.")
+            logger.error("Stop trolling me, no whitespace allowed. I'm giving up on you now.")
     else:
         file_path = sys.argv[1]
         if not path.exists(file_path):
-            logging.error("Input file \"%s\" does not exist! Please check that you specified the path correctly" % file_path)
+            logger.error("Input file \"%s\" does not exist! Please check that you specified the path correctly" % file_path)
         else:
             sentence_array = parse_file(file_path)
             if sentence_array is None:

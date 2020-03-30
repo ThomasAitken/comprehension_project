@@ -165,7 +165,7 @@ def simple_trilateration_algorithm(matrix_by_variance, dimension=100):
     
     #https://gis.stackexchange.com/questions/112905/map-location-of-unknown-point-with-distances-to-two-known-points
     #https://mathworld.wolfram.com/Circle-CircleIntersection.html
-    def triangulate(coordinate_1, coordinate_2, distance_1, distance_2):
+    def trilaterate(coordinate_1, coordinate_2, distance_1, distance_2):
         base_distance = euclidean_distance(coordinate_1, coordinate_2)
         if base_distance > distance_1 + distance_2:
             raise TrilaterationException("No exact solutions because circles are separate")
@@ -226,14 +226,14 @@ def simple_trilateration_algorithm(matrix_by_variance, dimension=100):
             distance_1 = distance_from_similarity(similarity_1)
             distance_2 = distance_from_similarity(similarity_2)
             try:
-                solutions = triangulate(coordinate_1, coordinate_2, distance_1, distance_2)
+                solutions = trilaterate(coordinate_1, coordinate_2, distance_1, distance_2)
             except TrilaterationException as e:
                 print(e)
                 try:
                     coordinate_3 = ordered_geometric_data[2][1][1]
                     similarity_3 = ordered_geometric_data[2][0]
                     distance_3 = distance_from_similarity(similarity_3)
-                    solutions = triangulate(coordinate_1, coordinate_3, distance_1, distance_3)
+                    solutions = trilaterate(coordinate_1, coordinate_3, distance_1, distance_3)
                 except TrilaterationException as e:
                     print("Shit!")
                     import pdb

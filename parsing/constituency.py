@@ -4,6 +4,7 @@ from benepar.spacy_plugin import BeneparComponent
 nlp.add_pipe(BeneparComponent("benepar_en2"))
 import re
 import logging
+logger = logging.getLogger(__name__)
 import pdb
 
 '''VB	VERB	VerbForm=inf	verb, base form
@@ -16,24 +17,25 @@ VBZ	VERB	VerbForm=fin Tense=pres Number=sing Person=three	verb, 3rd person singu
 #verb_phrase = tuple with (noun_phrase, verb +- negation, {key}:{noun_phrase/prepositional_phrase})
 
 class StandardSentence(object):
-    def __init__(self, subject, verb, object_, subordinates: list):
-        self.subject = subject
-        self.verb = verb
-        self.object_ = object_
+    def __init__(self, noun_phrase, verb_phrase, subordinates: tuple, dialogue_meta: dict = {}):
+        self.noun_phrase = noun_phrase
+        self.verb_phrase = verb_phrase
+        # self.object_ = object_
         self.subordinates = subordinates
+        self.dialogue_meta = dialogue_meta
 
 
-#need to implement a deep learning model to identify predication (description of stable properties)
-def identify_stable_attribution(sentence, verb_phrase)->bool:
+# #need to implement a deep learning model to identify predication (description of stable properties)
+# def identify_stable_attribution(sentence, verb_phrase)->bool:
 
-    # label = token.ent_type_
-    if len(sentence.ents) > 0:
-        time_entities = [ent for ent in sentence.ents if ent.label_ in ("TIME", "DATE")]
-        if time_entities:
-            for time_entity in time_entities:
-                boolean = identify_routines(time_entity)
-                if boolean == True:
-                    stable_description = 'x'
+#     # label = token.ent_type_
+#     if len(sentence.ents) > 0:
+#         time_entities = [ent for ent in sentence.ents if ent.label_ in ("TIME", "DATE")]
+#         if time_entities:
+#             for time_entity in time_entities:
+#                 routine = identify_routines(time_entity)
+#                 if routine:
+#                     stable_description = 'x'
 
 
 
@@ -41,9 +43,9 @@ def identify_stable_attribution(sentence, verb_phrase)->bool:
 
 #currently only dealing with simple case of one utterance contained within quotes
 #not dealing with sentences like "That smells so bad," said James, "Like a sewer!".
-def dialogue_determine(sentence)->list:
+def dialogue_parse(sentence)->dict:
     output = {"utterance": "", "expression_details": []}
-    if sentence._.labels[0] == "SINV":
+    if sentence._.labels[0] == "SINV" and "\"" in [str(child) for child in sentence._.children]:
         skip_idx = -1
         for idx,child in enumerate(sentence._.children):
             if idx == skip_idx:
@@ -63,7 +65,7 @@ def dialogue_determine(sentence)->list:
 
 # doc = nlp(u"\"A journey of a thousand miles begins with a single step,\" said Lao Tzu, as he mounted his horse.")
 # for sentence in doc.sents:
-#     print(dialogue_determine(sentence))
+#     print(dialogue_parse(sentence))
 
 
 #yields sentence/sentences (can be multiple constituency-parsed sentences within single sentence as identified superficially by full-stop) in format {"NP": .., "VP": .., "SBAR": ..}
@@ -75,17 +77,25 @@ def neaten_sentence(sentence)->dict:
     flat_representation = {}
     for level1_child in sentence._.children:
         # print(level1_child)
-        if str(level1_child) in (".", ";"):
+        print(str(sentence))
+        if str(level1_child) in (".", ",", ";", "..."):
             continue
-        if level1_child._.labels[0] == "S":
+        try:
+            constituent_label = level1_child._.labels[0]
+        except:
+            logger.error("Couldn't get label for %s" % (str(level1_child)))
+            #for some reason conjunction constituents not being labelled properly here.. need to fix bug in benepar
+            constituent_label = "CC"
+
+        if constituent_label in ("S", "SINV"):
             yield neaten_sentence(level1_child)
             continue
         else:
             #no two phrases of the same kind in the flat representation
-            if level1_child._.labels[0] in flat_representation:
-                logging.error("Assumption violated!")
-                return {}
-            flat_representation[level1_child._.labels[0]] = level1_child
+            if constituent_label in flat_representation:
+                logger.warn("Assumption violated!")
+                constituent_label = constituent_label+"_1"
+            flat_representation[constituent_label] = level1_child
     yield flat_representation
 
 
@@ -185,11 +195,66 @@ import re
 def grab_standard_sentences(constituents: dict)->str:
     pass
 
-def ditinguish_purpose_or_location(prepositional_phrase)->str:
+
+class UnexpectedParsing(Exception):
     pass
 
 def constituency_parse(sentence):
-    pass
+    dialogue_data = dialogue_parse(sentence)
+    if not dialogue_data:
+        clean_sentences = []
+        for output in neaten_sentence(sentence):
+            if type(output) == dict and output != {}:
+                clean_sentences.append(output)
+            #output is generator
+            else:
+                for x in output:
+                    clean_sentences.append(x)
+        for clean_sent in clean_sentences:
+            try:
+                noun_phrase = clean_sent["NP"]
+            except UnexpectedParsing:
+                logger.error("No NP at level 1!")
+            try:
+                verb_phrase = clean_sent["VP"]
+            except KeyError as e:
+                print(str(clean_sent))
+                raise UnexpectedParsing("No VP at level 1!")
+                pdb.set_trace()
+            sbar = clean_sent.get("SBAR", "")
+            prep_phrase = clean_sent.get("PP", "")
+            standard_sentence = StandardSentence(noun_phrase=noun_phrase, verb_phrase=verb_phrase, subordinates=(sbar, prep_phrase))
+            return standard_sentence
+    else:
+        clean_sentences = []
+        for output in neaten_sentence(dialogue_data["utterance"]):
+            if type(output) is dict and output != {}:
+                clean_sentences.append(output)
+            else:
+                for x in output:
+                    clean_sentences.append(x)
+            for clean_sent in clean_sentences:
+                try:
+                    noun_phrase = clean_sent["NP"]
+                except UnexpectedParsing:
+                    logger.error("No NP at level 1!")
+                if "NP_1" in clean_sent:
+                    noun_phrase = noun_phrase + " + " str(clean_sent["NP_1"])
+                try:
+                    verb_phrase = clean_sent["VP"]
+                except UnexpectedParsing:
+                    logger.error("No VP at level 1!")
+                sbar = clean_sent.get("SBAR", "")
+                prep_phrase = clean_sent.get("PP", "")
+                standard_sentence = StandardSentence(noun_phrase=noun_phrase, verb_phrase=verb_phrase, subordinates=(sbar, prep_phrase), dialogue_meta=dialogue_data["expression_details"])
+                return standard_sentence
+            
+
+            
+
+    
+
+    
 
 
 
