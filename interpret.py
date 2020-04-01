@@ -3,7 +3,7 @@
 
 
 import sys
-sys.path.insert(0, '/home/comprehension_project')
+sys.path.insert(0, '/home/crastollgorton/comprehension_project')
 # sys.path.append('/home/crastollgorton/comprehension_project')
 import os
 from os import path

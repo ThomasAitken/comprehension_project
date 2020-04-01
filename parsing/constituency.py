@@ -1,7 +1,4 @@
 import spacy
-nlp = spacy.load("en_core_web_lg")
-from benepar.spacy_plugin import BeneparComponent
-nlp.add_pipe(BeneparComponent("benepar_en2"))
 import re
 import logging
 logger = logging.getLogger(__name__)
@@ -77,8 +74,8 @@ def neaten_sentence(sentence)->dict:
     flat_representation = {}
     for level1_child in sentence._.children:
         # print(level1_child)
-        print(str(sentence))
-        if str(level1_child) in (".", ",", ";", "..."):
+        # print(str(sentence))
+        if str(level1_child) in (".", ",", ";", "...", "--", "!"):
             continue
         try:
             constituent_label = level1_child._.labels[0]
@@ -88,7 +85,8 @@ def neaten_sentence(sentence)->dict:
             constituent_label = "CC"
 
         if constituent_label in ("S", "SINV"):
-            yield neaten_sentence(level1_child)
+            for parsed_dict in neaten_sentence(level1_child):
+                yield parsed_dict
             continue
         else:
             #no two phrases of the same kind in the flat representation
@@ -204,27 +202,31 @@ def constituency_parse(sentence):
     if not dialogue_data:
         clean_sentences = []
         for output in neaten_sentence(sentence):
-            if type(output) == dict and output != {}:
+            if type(output) == dict and len(output) > 1:
                 clean_sentences.append(output)
-            #output is generator
-            else:
-                for x in output:
-                    clean_sentences.append(x)
+            # print(clean_sentences)
+            # #output is generator
+            # else:
+            #     for x in output:
+            #         clean_sentences.append(x)
         for clean_sent in clean_sentences:
             try:
                 noun_phrase = clean_sent["NP"]
             except UnexpectedParsing:
                 logger.error("No NP at level 1!")
+            if "NP_1" in clean_sent:
+                noun_phrase = [noun_phrase, clean_sent["NP_1"]]
             try:
                 verb_phrase = clean_sent["VP"]
             except KeyError as e:
                 print(str(clean_sent))
                 raise UnexpectedParsing("No VP at level 1!")
                 pdb.set_trace()
+            if "VP_1" in clean_sent:
+                verb_phrase = [verb_phrase, clean_sent["VP_1"]]
             sbar = clean_sent.get("SBAR", "")
             prep_phrase = clean_sent.get("PP", "")
-            standard_sentence = StandardSentence(noun_phrase=noun_phrase, verb_phrase=verb_phrase, subordinates=(sbar, prep_phrase))
-            return standard_sentence
+            yield StandardSentence(noun_phrase=noun_phrase, verb_phrase=verb_phrase, subordinates=(sbar, prep_phrase))
     else:
         clean_sentences = []
         for output in neaten_sentence(dialogue_data["utterance"]):
@@ -239,7 +241,7 @@ def constituency_parse(sentence):
                 except UnexpectedParsing:
                     logger.error("No NP at level 1!")
                 if "NP_1" in clean_sent:
-                    noun_phrase = noun_phrase + " + " str(clean_sent["NP_1"])
+                    noun_phrase = noun_phrase + " + " + str(clean_sent["NP_1"])
                 try:
                     verb_phrase = clean_sent["VP"]
                 except UnexpectedParsing:

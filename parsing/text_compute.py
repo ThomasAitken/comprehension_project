@@ -22,8 +22,9 @@ import json
 
 def parse_sentences_updated(sentences: list):
     for sent in sentences:
-        cleaned_sent = constituency_parse(sent)
-        print("NP: ", cleaned_sent.noun_phrase, " VP: ", cleaned_sent.verb_phrase, " SUB: ", cleaned_sent.subordinates, " DIA: ", cleaned_sent.dialogue_meta)
+        cleaned_sentences = constituency_parse(sent)
+        for cleaned_sent in cleaned_sentences:
+            print("NP: ", cleaned_sent.noun_phrase, " VP: ", cleaned_sent.verb_phrase, " SUB: ", cleaned_sent.subordinates, " DIA: ", cleaned_sent.dialogue_meta)
 
 
 def parse_sentences(sentences: list):
