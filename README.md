@@ -14,3 +14,10 @@ I am working on a few things:
 First self-set benchmark is to successfully break up and paraphrase several texts pitched at the level of young children - then work my way up to simple-English short stories by authors like Raymond Carver, Hemingway, perhaps others (generally, trying to avoid free indirect style and want to stick to fiction that makes it relatively clear what is a thought, what is speech, what is description).
 
 This is ultimately a 'general intelligence'-style project. Which is not to say I don't see that this kind of approach to meaning is inherently and necessarily constrained; any system which can approximate the richness of our meaning representations will likely need to interact with some kind of rich world (virtual/real) with physics and complex environmental changes... As I've written somewhere in some of the project notes, I imagine that the big semantic graph and basic ontological equipment that would ideally come out of this project could be a launching pad for training an agent to develop richer representations of these ontological constituents in some virtual-reality world where all entities are labelled (so that there is a bridge from text to richer, higher-dimensional representations of entities, beyond their structural similarity to other entities and onto something more 'tangible').
+
+## Progress to date:
+Project remains messy but a concrete few things have been developed now (nothing too fancy, working slowly).
+
+* Set up basic requirements for loading data into database (but no data being produced as yet)
+* Developed a relatively simple decomposition/flattening algorithm for representing conceptual distance on the 2d plane (in *database/semantic_map.py*.. thought it could be of use but I think the 2d representation is untenable - need to preserve a high-dimensional representation for analysis))
+* Have developed the beginnings of the first stage of the text-processing pipeline I'm developing, testing it on Hungry Caterpillar (sue me). Main work being done by *constituency.py* in *parsing*. Feeling happy with progress so far, perusable in *tests_and_other_junk/h_caterpillar_constit_test.py*
