@@ -1,3 +1,5 @@
+import spacy
+
 def __main__(text):
     events = identify_events(text)
 
@@ -10,7 +12,8 @@ def identify_events(text):
 agents = []
 def process_agents(sentence):
     determine_agent_name()
-
+    
 def determine_agent_existence(sentence):
+    if name 
     #if name in sentence, check if name is already in agents, otherwise assume reference to last person referred to, with some assumption about gender.
     pass

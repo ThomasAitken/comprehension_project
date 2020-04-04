@@ -8,7 +8,7 @@
 #Task: (i) Identify two locations or direction of movement with respect to some marker... 
 #             Marker can be non-living or living (as in above)
 #
-from parsing.constituency import constituency_parse
+from parsing.constituency import *
 import sys
 # print(sys.path)  
 from database.sqlite import *
@@ -25,6 +25,11 @@ def parse_sentences_updated(sentences: list):
         cleaned_sentences = constituency_parse(sent)
         for cleaned_sent in cleaned_sentences:
             print("NP: ", cleaned_sent.noun_phrase, " VP: ", cleaned_sent.verb_phrase, " SUB: ", cleaned_sent.subordinates, " DIA: ", cleaned_sent.dialogue_meta)
+            cleaned_sent = parse_verb_phrase(cleaned_sent)
+            print("Verbs: ", cleaned_sent.verbal_decomp[0].verbs, " NP: ", cleaned_sent.verbal_decomp[0].noun_phrase, " PP: ", cleaned_sent.verbal_decomp[0].prep_phrase, " Transitive: ", cleaned_sent.verbal_decomp[0].transitive)
+            if len(cleaned_sent.verbal_decomp) > 1:
+                print("Verbs: ", cleaned_sent.verbal_decomp[1].verbs, " NP: ", cleaned_sent.verbal_decomp[1].noun_phrase, " PP: ", cleaned_sent.verbal_decomp[1].prep_phrase, " Transitive: ", cleaned_sent.verbal_decomp[1].transitive)
+
 
 
 def parse_sentences(sentences: list):

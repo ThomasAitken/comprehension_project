@@ -13,13 +13,22 @@ VBZ	VERB	VerbForm=fin Tense=pres Number=sing Person=three	verb, 3rd person singu
 
 #verb_phrase = tuple with (noun_phrase, verb +- negation, {key}:{noun_phrase/prepositional_phrase})
 
+#Now you might ask: What is the point of these objects if you are doing fuck all therewith? 
+#The answer is planning for the hypothetical future; it's called calculated redundancy, dumbass 
 class StandardSentence(object):
-    def __init__(self, noun_phrase, verb_phrase, subordinates: tuple, dialogue_meta: dict = {}):
+    def __init__(self, noun_phrase, verb_phrase, subordinates: tuple, dialogue_meta: dict = {}, verbal_decomp=None):
         self.noun_phrase = noun_phrase
         self.verb_phrase = verb_phrase
-        # self.object_ = object_
         self.subordinates = subordinates
         self.dialogue_meta = dialogue_meta
+
+class VerbalDecomp(object):
+    def __init__(self, verbs, noun_phrase=None, prep_phrase=None, transitive=True):
+        self.verbs = verbs
+        self.noun_phrase = noun_phrase
+        self.prep_phrase = prep_phrase
+        self.transitive = transitive
+
 
 
 # #need to implement a deep learning model to identify predication (description of stable properties)
@@ -79,10 +88,14 @@ def neaten_sentence(sentence)->dict:
             continue
         try:
             constituent_label = level1_child._.labels[0]
+            if len(level1_child._.labels) > 1:
+                print("Stop the presses, ")
+
         except:
             logger.error("Couldn't get label for %s" % (str(level1_child)))
             #for some reason conjunction constituents not being labelled properly here.. need to fix bug in benepar
-            constituent_label = "CC"
+            # print(len(level1_child._.children))
+            constituent_label = list(level1_child)[0].tag_
 
         if constituent_label in ("S", "SINV"):
             for parsed_dict in neaten_sentence(level1_child):
@@ -96,55 +109,6 @@ def neaten_sentence(sentence)->dict:
             flat_representation[constituent_label] = level1_child
     yield flat_representation
 
-
-#unfinished nonsense
-'''
-    # sentence_tree = {}
-    # # sentence_tree[0] = {"S": sentence}
-    # level_indicator = 0
-    # for idx,constituent in enumerate(constituents):
-    #     if level_indicator not in sentence_tree:
-    #         sentence_tree[level_indicator] = [{constituent._.label: constituent}]
-    #     else:
-    #         sentence_tree[level_indicator].append({constituent._.label: constituent})
-    #     while True:
-    #         #unary chain
-    #         if constituent._.label in ("NP", "VP", "PP"):
-    #             child = list(constituent._.children)[0]
-    #             sentence_tree[level_indicator+1] = {child._.label: child}
-    #         else:
-    #             break
-    #     if constituent._.children:
-    #         level_indicator += 1
-
-    #     print(str(constituent))
-    #     print(constituent._.labels)
-    #     children = list(constituent._.children)
-    #     print(children)
-    #     # if level == 0:
-    #     #     level0_children = children
-    #     #     level += 1
-    #     # if children:
-    #     #     for child in children:
-    #     #         if child not in level0_children:
-
-
-    #     # print(list(constituent._.children))
-    # # assert(len(constituent_labels)==len(constituents)+1), "Weird error in constituent parsing."
-
-    # output = {}
-    # label_instance_counts = {}
-    # output[0] = {"S": sentence}
-    # for idx,label in enumerate(constituent_labels):
-    #     if label not in output:
-    #         output[label] = constituents[idx]
-    #         label_instance_counts[label] = 1
-    #     else:
-    #         key = label + "_%d" % label_instance_counts[label]
-    #         output[key] = constituents[idx]
-    #         label_instance_counts[label] += 1
-    # return output
-'''
 
 
 # parse_string = '(S (NP (DT The) (JJ alpine) (NNS wildflowers)) (VP (VBP are) (PP (IN in) (NP (NN bloom))) (PP (DT all) (IN around) (NP (PRP us)))) (. .))'
@@ -199,59 +163,83 @@ class UnexpectedParsing(Exception):
 
 def constituency_parse(sentence):
     dialogue_data = dialogue_parse(sentence)
+    clean_sentences = []
     if not dialogue_data:
-        clean_sentences = []
-        for output in neaten_sentence(sentence):
-            if type(output) == dict and len(output) > 1:
-                clean_sentences.append(output)
-            # print(clean_sentences)
-            # #output is generator
-            # else:
-            #     for x in output:
-            #         clean_sentences.append(x)
-        for clean_sent in clean_sentences:
-            try:
-                noun_phrase = clean_sent["NP"]
-            except UnexpectedParsing:
-                logger.error("No NP at level 1!")
-            if "NP_1" in clean_sent:
-                noun_phrase = [noun_phrase, clean_sent["NP_1"]]
-            try:
-                verb_phrase = clean_sent["VP"]
-            except KeyError as e:
-                print(str(clean_sent))
-                raise UnexpectedParsing("No VP at level 1!")
-                pdb.set_trace()
-            if "VP_1" in clean_sent:
-                verb_phrase = [verb_phrase, clean_sent["VP_1"]]
-            sbar = clean_sent.get("SBAR", "")
-            prep_phrase = clean_sent.get("PP", "")
-            yield StandardSentence(noun_phrase=noun_phrase, verb_phrase=verb_phrase, subordinates=(sbar, prep_phrase))
+        parsed = neaten_sentence(sentence)
     else:
-        clean_sentences = []
-        for output in neaten_sentence(dialogue_data["utterance"]):
-            if type(output) is dict and output != {}:
-                clean_sentences.append(output)
-            else:
-                for x in output:
-                    clean_sentences.append(x)
-            for clean_sent in clean_sentences:
-                try:
-                    noun_phrase = clean_sent["NP"]
-                except UnexpectedParsing:
-                    logger.error("No NP at level 1!")
-                if "NP_1" in clean_sent:
-                    noun_phrase = noun_phrase + " + " + str(clean_sent["NP_1"])
-                try:
-                    verb_phrase = clean_sent["VP"]
-                except UnexpectedParsing:
-                    logger.error("No VP at level 1!")
-                sbar = clean_sent.get("SBAR", "")
-                prep_phrase = clean_sent.get("PP", "")
-                standard_sentence = StandardSentence(noun_phrase=noun_phrase, verb_phrase=verb_phrase, subordinates=(sbar, prep_phrase), dialogue_meta=dialogue_data["expression_details"])
-                return standard_sentence
-            
+        parsed = neaten_sentence(dialogue_data["utterance"])
 
+    for output in parsed:
+        if type(output) == dict and len(output) > 1:
+            clean_sentences.append(output)
+    for clean_sent in clean_sentences:
+        try:
+            noun_phrase = clean_sent["NP"]
+        except UnexpectedParsing:
+            #If this error gets thrown, probably an infinitive verb phrase.. gets tagged as 'Sentence' by Benepar for some reason
+            logger.error("No NP at level 1!")
+        if "NP_1" in clean_sent:
+            noun_phrase = [noun_phrase, clean_sent["NP_1"]]
+        try:
+            verb_phrase = clean_sent["VP"]
+        except KeyError as e:
+            print(str(clean_sent))
+            raise UnexpectedParsing("No VP at level 1!")
+            pdb.set_trace()
+        if "VP_1" in clean_sent:
+            verb_phrase = [verb_phrase, clean_sent["VP_1"]]
+        sbar = clean_sent.get("SBAR", "")
+        prep_phrase = clean_sent.get("PP", "")
+        yield StandardSentence(noun_phrase=noun_phrase, verb_phrase=verb_phrase, subordinates=(sbar, prep_phrase), dialogue_meta=dialogue_data)
+
+
+
+# I want to determine if verb is transitive/intransitive (i.e. whether verb
+# directly acts on a noun phrase (e.g. "Samantha kicked the ball") or whether it
+# is on its own (e.g. "The man drinks") or whether it is connected to a
+# prepositional phrase (i.e. "My kindly grandma sleeps in a caravan")).. Then
+# separate out these components
+# 
+
+#This code is fuck-ugly but I'll refactor don't worry, just had to achieve something before I went to bed
+def parse_verb_phrase(clean_sent: StandardSentence)->StandardSentence:
+    def get_prep_phrase(constituents):
+        for constit in constituents:
+            if constit._.labels[0] == "PP":
+                return constit
+        return None
+
+    verb_phrase = clean_sent.verb_phrase 
+
+    if isinstance(verb_phrase, list):
+        constituents_0 = list(filter(lambda constit: len(constit._.labels) > 0, verb_phrase[0]._.children))
+        verbs_0 = list(filter(lambda constit : list(constit)[0].tag_.startswith("V"), verb_phrase[0]._.children))
+        constituents_1 = list(filter(lambda constit: len(constit._.labels) > 0, verb_phrase[1]._.children))
+        verbs_1 = list(filter(lambda constit : list(constit)[0].tag_.startswith("V"), verb_phrase[1]._.children))
+        verbs = [verbs_0, verbs_1]
+        constituents_meta = [constituents_0, constituents_1]
+    else:
+        constituents = list(filter(lambda constit: len(constit._.labels) > 0, verb_phrase._.children))
+        verbs = [list(filter(lambda constit : list(constit)[0].tag_.startswith("V"), verb_phrase._.children))]
+        constituents_meta = [constituents]
+    clean_sent.verbal_decomp = []
+    for i,constituents in enumerate(constituents_meta):
+        prep_phrase = get_prep_phrase(constituents)
+        #case: intransitive
+        if "NP" not in [constit._.labels[0] for constit in constituents]:
+            transitive = False
+            verb_data = VerbalDecomp(verbs=verbs[i], prep_phrase=prep_phrase, transitive=transitive)
+            clean_sent.verbal_decomp.append(verb_data)
+        #case transitive = direct object = NP (in theory)
+        else:
+            transitive = True
+            noun_phrases = list(filter(lambda constit : constit._.labels[0] == "NP", constituents))
+            if len(noun_phrases) > 1:
+                logger.error("This was a surprise!!!!")
+            noun_phrase = noun_phrases[0]
+            verb_data = VerbalDecomp(verbs=verbs[i], prep_phrase=prep_phrase, noun_phrase=noun_phrase, transitive=transitive)
+            clean_sent.verbal_decomp.append(verb_data)
+    return clean_sent
             
 
     
