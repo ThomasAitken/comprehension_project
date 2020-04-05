@@ -15,20 +15,26 @@ VBZ	VERB	VerbForm=fin Tense=pres Number=sing Person=three	verb, 3rd person singu
 
 #Now you might ask: What is the point of these objects if you are doing fuck all therewith? 
 #The answer is planning for the hypothetical future; it's called calculated redundancy, dumbass 
+
+#Almost all of the time, a sentence will only have one noun phrase & one verb
+#phrase at 'level 1' of the hierarchy, but sometimes there are multiple on the
+#same level, e.g. "He killed a man, then buried the body" has two VPs. Hence
+#pluralisation
 class StandardSentence(object):
-    def __init__(self, noun_phrase, verb_phrase, subordinates: tuple, dialogue_meta: dict = {}, verbal_decomp=None):
-        self.noun_phrase = noun_phrase
-        self.verb_phrase = verb_phrase
+    def __init__(self, noun_phrases: list, verb_phrases: list, subordinates: tuple, dialogue_meta: dict = {}, verbal_decomp=None):
+        self.noun_phrases = noun_phrases
+        self.verb_phrases = verb_phrases
         self.subordinates = subordinates
         self.dialogue_meta = dialogue_meta
 
 class VerbalDecomp(object):
-    def __init__(self, verbs, noun_phrase=None, prep_phrase=None, transitive=True):
+    def __init__(self, verbs, noun_phrases=None, prep_phrase=None, adj_phrase=None, adverb_phrase=None, transitive=True):
         self.verbs = verbs
-        self.noun_phrase = noun_phrase
+        self.noun_phrases = noun_phrases
         self.prep_phrase = prep_phrase
+        self.adj_phrase = adj_phrase
+        self.adverb_phrase = adverb_phrase
         self.transitive = transitive
-
 
 
 # #need to implement a deep learning model to identify predication (description of stable properties)
@@ -174,23 +180,23 @@ def constituency_parse(sentence):
             clean_sentences.append(output)
     for clean_sent in clean_sentences:
         try:
-            noun_phrase = clean_sent["NP"]
+            noun_phrases = [clean_sent["NP"]]
         except UnexpectedParsing:
             #If this error gets thrown, probably an infinitive verb phrase.. gets tagged as 'Sentence' by Benepar for some reason
             logger.error("No NP at level 1!")
         if "NP_1" in clean_sent:
-            noun_phrase = [noun_phrase, clean_sent["NP_1"]]
+            noun_phrases = [clean_sent["NP"], clean_sent["NP_1"]]
         try:
-            verb_phrase = clean_sent["VP"]
+            verb_phrases = [clean_sent["VP"]]
         except KeyError as e:
             print(str(clean_sent))
             raise UnexpectedParsing("No VP at level 1!")
             pdb.set_trace()
         if "VP_1" in clean_sent:
-            verb_phrase = [verb_phrase, clean_sent["VP_1"]]
+            verb_phrases = [clean_sent["VP"], clean_sent["VP_1"]]
         sbar = clean_sent.get("SBAR", "")
         prep_phrase = clean_sent.get("PP", "")
-        yield StandardSentence(noun_phrase=noun_phrase, verb_phrase=verb_phrase, subordinates=(sbar, prep_phrase), dialogue_meta=dialogue_data)
+        yield StandardSentence(noun_phrases=noun_phrases, verb_phrases=verb_phrases, subordinates=(sbar, prep_phrase), dialogue_meta=dialogue_data)
 
 
 
@@ -201,43 +207,52 @@ def constituency_parse(sentence):
 # separate out these components
 # 
 
-#This code is fuck-ugly but I'll refactor don't worry, just had to achieve something before I went to bed
+
+#ADVP, ADJP
 def parse_verb_phrase(clean_sent: StandardSentence)->StandardSentence:
-    def get_prep_phrase(constituents):
+    def get_phrase(constituents, phrase_type):
         for constit in constituents:
-            if constit._.labels[0] == "PP":
+            if constit._.labels[0] == phrase_type:
                 return constit
         return None
 
-    verb_phrase = clean_sent.verb_phrase 
-
-    if isinstance(verb_phrase, list):
-        constituents_0 = list(filter(lambda constit: len(constit._.labels) > 0, verb_phrase[0]._.children))
-        verbs_0 = list(filter(lambda constit : list(constit)[0].tag_.startswith("V"), verb_phrase[0]._.children))
-        constituents_1 = list(filter(lambda constit: len(constit._.labels) > 0, verb_phrase[1]._.children))
-        verbs_1 = list(filter(lambda constit : list(constit)[0].tag_.startswith("V"), verb_phrase[1]._.children))
-        verbs = [verbs_0, verbs_1]
-        constituents_meta = [constituents_0, constituents_1]
-    else:
+    verb_phrases = clean_sent.verb_phrases
+    constituents_meta = []
+    verbs_meta = []
+    for verb_phrase in verb_phrases:
         constituents = list(filter(lambda constit: len(constit._.labels) > 0, verb_phrase._.children))
-        verbs = [list(filter(lambda constit : list(constit)[0].tag_.startswith("V"), verb_phrase._.children))]
-        constituents_meta = [constituents]
+        verbs = list(filter(lambda constit : list(constit)[0].tag_.startswith("V") and list(constit)[0].tag_ != "VBG", verb_phrase._.children))
+        if len(verbs) > 1:
+            logger.error("Unexpected num verbs!!!")
+        #e.g. 'going' in 'was going' or 'looking' in 'started looking'
+        gerund_phrases = list(filter(lambda constit : list(constit)[0].tag_ == "VBG", verb_phrase._.children))
+        if gerund_phrases:
+            if len(gerund_phrases) > 1:
+                logger.error("Unexpected num gerunds!!!")
+            gerund_phrase = gerund_phrases[0]
+            gerund = list(gerund_phrase._.children)[0]
+            verbs = [verbs[0], gerund]
+            gerund_phrase_kids = list(filter(lambda constit: len(constit._.labels) > 0, gerund_phrase._.children))
+            constituents += list(gerund_phrase_kids)
+
+        constituents_meta.append(constituents)
+        verbs_meta.append(verbs)
+
     clean_sent.verbal_decomp = []
     for i,constituents in enumerate(constituents_meta):
-        prep_phrase = get_prep_phrase(constituents)
+        prep_phrase = get_phrase(constituents, "PP")
+        adj_phrase = get_phrase(constituents, "ADJP")
+        adverb_phrase = get_phrase(constituents, "ADVP")
         #case: intransitive
         if "NP" not in [constit._.labels[0] for constit in constituents]:
             transitive = False
-            verb_data = VerbalDecomp(verbs=verbs[i], prep_phrase=prep_phrase, transitive=transitive)
+            verb_data = VerbalDecomp(verbs=verbs_meta[i], prep_phrase=prep_phrase, adj_phrase=adj_phrase, adverb_phrase=adverb_phrase, transitive=transitive)
             clean_sent.verbal_decomp.append(verb_data)
         #case transitive = direct object = NP (in theory)
         else:
             transitive = True
             noun_phrases = list(filter(lambda constit : constit._.labels[0] == "NP", constituents))
-            if len(noun_phrases) > 1:
-                logger.error("This was a surprise!!!!")
-            noun_phrase = noun_phrases[0]
-            verb_data = VerbalDecomp(verbs=verbs[i], prep_phrase=prep_phrase, noun_phrase=noun_phrase, transitive=transitive)
+            verb_data = VerbalDecomp(verbs=verbs_meta[i], noun_phrases=noun_phrases, prep_phrase=prep_phrase, adj_phrase=adj_phrase, adverb_phrase=adverb_phrase, transitive=transitive)
             clean_sent.verbal_decomp.append(verb_data)
     return clean_sent
             

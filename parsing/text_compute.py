@@ -24,12 +24,11 @@ def parse_sentences_updated(sentences: list):
     for sent in sentences:
         cleaned_sentences = constituency_parse(sent)
         for cleaned_sent in cleaned_sentences:
-            print("NP: ", cleaned_sent.noun_phrase, " VP: ", cleaned_sent.verb_phrase, " SUB: ", cleaned_sent.subordinates, " DIA: ", cleaned_sent.dialogue_meta)
+            print("NP: {}  VP: {}  SUB: {}  DIA: {}".format(cleaned_sent.noun_phrases, cleaned_sent.verb_phrases, cleaned_sent.subordinates, cleaned_sent.dialogue_meta))
             cleaned_sent = parse_verb_phrase(cleaned_sent)
-            print("Verbs: ", cleaned_sent.verbal_decomp[0].verbs, " NP: ", cleaned_sent.verbal_decomp[0].noun_phrase, " PP: ", cleaned_sent.verbal_decomp[0].prep_phrase, " Transitive: ", cleaned_sent.verbal_decomp[0].transitive)
+            print("Verbs: {}  NP: {}  PP: {}  ADJP: {}  ADVP: {}  Transitive: {}".format(cleaned_sent.verbal_decomp[0].verbs, cleaned_sent.verbal_decomp[0].noun_phrases, cleaned_sent.verbal_decomp[0].prep_phrase, cleaned_sent.verbal_decomp[0].adj_phrase, cleaned_sent.verbal_decomp[0].adverb_phrase, cleaned_sent.verbal_decomp[0].transitive))
             if len(cleaned_sent.verbal_decomp) > 1:
-                print("Verbs: ", cleaned_sent.verbal_decomp[1].verbs, " NP: ", cleaned_sent.verbal_decomp[1].noun_phrase, " PP: ", cleaned_sent.verbal_decomp[1].prep_phrase, " Transitive: ", cleaned_sent.verbal_decomp[1].transitive)
-
+                print("Verbs: {}  NP: {}  PP: {}  ADJP: {}  ADVP: {}  Transitive: {}".format(cleaned_sent.verbal_decomp[1].verbs, cleaned_sent.verbal_decomp[1].noun_phrases, cleaned_sent.verbal_decomp[0].prep_phrase, cleaned_sent.verbal_decomp[0].adj_phrase, cleaned_sent.verbal_decomp[0].adverb_phrase, cleaned_sent.verbal_decomp[0].transitive))
 
 
 def parse_sentences(sentences: list):
