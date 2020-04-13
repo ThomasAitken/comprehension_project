@@ -21,15 +21,29 @@ VBZ	VERB	VerbForm=fin Tense=pres Number=sing Person=three	verb, 3rd person singu
 #same level, e.g. "He killed a man, then buried the body" has two VPs. Hence
 #pluralisation
 class StandardSentence(object):
-    def __init__(self, noun_phrases: list, verb_phrases: list, subordinates: tuple, dialogue_meta: dict = {}, verbal_decomp=None):
+    def __init__(self, noun_phrases: list, verb_phrases: list, subordinates: tuple, dialogue_meta = {}, verbal_decomp=[]):
         self.noun_phrases = noun_phrases
         self.verb_phrases = verb_phrases
         self.subordinates = subordinates
         self.dialogue_meta = dialogue_meta
+        self.verbal_decomp = verbal_decomp
 
+    def __repr__(self):
+        base = "NP: {}  VP: {}  SUB: {}  DIA: {}".format(self.noun_phrases, self.verb_phrases, self.subordinates, self.dialogue_meta)
+        for verb_component in self.verbal_decomp:
+            base += "\nVerbs: {}  Modifier: {}  NP: {}  PP: {}  ADJP: {}  ADVP: {}  Transitive: {}".format(verb_component.verbs, verb_component.modifier, verb_component.noun_phrases, verb_component.prep_phrase, verb_component.adj_phrase, verb_component.adverb_phrase, verb_component.transitive)
+            if verb_component == self.verbal_decomp[-1]:
+                base +=("\n")
+        return base
+
+
+#Modifier = prepposition that parser doesn't recognise as belonging to a
+#prepositional phrase --- ideally, all prepositions forming compound verbs (e.g.
+#"up" in "The sun came up." and negations like "not", "n't")
 class VerbalDecomp(object):
-    def __init__(self, verbs, noun_phrases=None, prep_phrase=None, adj_phrase=None, adverb_phrase=None, transitive=True):
+    def __init__(self, verbs, modifier=None, noun_phrases=None, prep_phrase={}, adj_phrase=None, adverb_phrase=None, transitive=True):
         self.verbs = verbs
+        self.modifier = modifier
         self.noun_phrases = noun_phrases
         self.prep_phrase = prep_phrase
         self.adj_phrase = adj_phrase
@@ -116,41 +130,6 @@ def neaten_sentence(sentence)->dict:
     yield flat_representation
 
 
-
-# parse_string = '(S (NP (DT The) (JJ alpine) (NNS wildflowers)) (VP (VBP are) (PP (IN in) (NP (NN bloom))) (PP (DT all) (IN around) (NP (PRP us)))) (. .))'
-# doc1 = nlp(u"The alpine wildflowers are in bloom all around us.")
-# doc2 = nlp(u"The alpine wildflowers are in bloom all around us; their perfume fills our nostrils and lifts our spirits.")
-# for sent in doc1.sents:
-#     # x = neaten_sentences(sent)
-#     sentences = []
-#     for output in neaten_sentence(sent):
-#         if type(output) == dict and output != {}:
-#             sentences.append(output)
-#         #output is generator
-#         else:
-#             for x in output:
-#                 sentences.append(x)
-#     # print(neaten_sentences(sent))
-#     print(sentences)
-# for sent in doc2.sents:
-#     sentences = []
-#     for output in neaten_sentence(sent):
-#         if type(output) == dict:
-#             sentences.append(output)
-#         else:
-#             for x in output:
-#                 sentences.append(x)
-#     print(sentences)
-
-
-
-
-'''(S (NP (DT The) (JJ alpine) (NNS wildflowers)) (VP (VBP are) (PP (IN in) (NP (NN bloom))) (PP (DT all) (IN around) (NP (PRP us)))) (. .))
-('S',)
-[The alpine wildflowers are in bloom all around us., The alpine wildflowers, The, alpine, wildflowers, are in bloom all around us, are, in bloom, in, bloom, all around us, all, around, us, .]'''
-
-
-
 def identify_routines(time_entity)->bool:
     if time_entity.similarity(nlp(u"routine")) > 0.35:
         return True
@@ -166,6 +145,22 @@ def grab_standard_sentences(constituents: dict)->str:
 
 class UnexpectedParsing(Exception):
     pass
+
+def parse_prep_phrase(prep_phrase, prep0=None)->dict:
+    try:
+        prep = list(filter(lambda constit : list(constit)[0].tag_ == "IN", prep_phrase._.children))[0]
+        noun_phrase = list(filter(lambda constit : len(constit._.labels) > 0 and constit._.labels[0] == "NP", prep_phrase._.children))[0]
+    except IndexError:
+        logger.warn("Default assumption violated about prepositional phrase structure. Trying recursive assumption")
+        #Recursive assumption = we are dealing with a prepositional phrase that breaks down into prep + prepositional phrase
+        #e.g. "out of the egg"
+        prep_phrase = list(filter(lambda constit : len(constit._.labels) > 0 and constit._.labels[0] == "PP", prep_phrase._.children))[0]
+        return parse_prep_phrase(prep_phrase, prep)
+    
+    prep_phrase = {"NP": noun_phrase, "prep": prep}
+    if prep0:
+        prep_phrase["prep0"] = prep0
+    return prep_phrase
 
 def constituency_parse(sentence):
     dialogue_data = dialogue_parse(sentence)
@@ -196,6 +191,8 @@ def constituency_parse(sentence):
             verb_phrases = [clean_sent["VP"], clean_sent["VP_1"]]
         sbar = clean_sent.get("SBAR", "")
         prep_phrase = clean_sent.get("PP", "")
+        if prep_phrase:
+            prep_phrase = parse_prep_phrase(prep_phrase)
         yield StandardSentence(noun_phrases=noun_phrases, verb_phrases=verb_phrases, subordinates=(sbar, prep_phrase), dialogue_meta=dialogue_data)
 
 
@@ -219,6 +216,7 @@ def parse_verb_phrase(clean_sent: StandardSentence)->StandardSentence:
     verb_phrases = clean_sent.verb_phrases
     constituents_meta = []
     verbs_meta = []
+    modifiers = []
     for verb_phrase in verb_phrases:
         constituents = list(filter(lambda constit: len(constit._.labels) > 0, verb_phrase._.children))
         verbs = list(filter(lambda constit : list(constit)[0].tag_.startswith("V") and list(constit)[0].tag_ != "VBG", verb_phrase._.children))
@@ -234,25 +232,37 @@ def parse_verb_phrase(clean_sent: StandardSentence)->StandardSentence:
             verbs = [verbs[0], gerund]
             gerund_phrase_kids = list(filter(lambda constit: len(constit._.labels) > 0, gerund_phrase._.children))
             constituents += list(gerund_phrase_kids)
-
+        try:
+            modifier = list(filter(lambda constit : list(constit)[0].tag_ == "RB", verb_phrase._.children))[0]
+        except IndexError:
+            modifier = None
+        
+        modifiers.append(modifier)
         constituents_meta.append(constituents)
         verbs_meta.append(verbs)
 
     clean_sent.verbal_decomp = []
     for i,constituents in enumerate(constituents_meta):
-        prep_phrase = get_phrase(constituents, "PP")
         adj_phrase = get_phrase(constituents, "ADJP")
         adverb_phrase = get_phrase(constituents, "ADVP")
+        if adverb_phrase is not None and modifiers[i] == adverb_phrase:
+            modifiers[i] = None
+        prep_phrase = get_phrase(constituents, "PP")
+        noun_phrases = list(filter(lambda constit : constit._.labels[0] == "NP", constituents))
+        if prep_phrase:
+            prep_phrase = parse_prep_phrase(prep_phrase)
+        else:
+            prep_phrase = {}
+
         #case: intransitive
-        if "NP" not in [constit._.labels[0] for constit in constituents]:
+        if not noun_phrases:
             transitive = False
-            verb_data = VerbalDecomp(verbs=verbs_meta[i], prep_phrase=prep_phrase, adj_phrase=adj_phrase, adverb_phrase=adverb_phrase, transitive=transitive)
+            verb_data = VerbalDecomp(verbs=verbs_meta[i], modifier=modifiers[i], prep_phrase=prep_phrase, adj_phrase=adj_phrase, adverb_phrase=adverb_phrase, transitive=transitive)
             clean_sent.verbal_decomp.append(verb_data)
         #case transitive = direct object = NP (in theory)
         else:
             transitive = True
-            noun_phrases = list(filter(lambda constit : constit._.labels[0] == "NP", constituents))
-            verb_data = VerbalDecomp(verbs=verbs_meta[i], noun_phrases=noun_phrases, prep_phrase=prep_phrase, adj_phrase=adj_phrase, adverb_phrase=adverb_phrase, transitive=transitive)
+            verb_data = VerbalDecomp(verbs=verbs_meta[i], modifier=modifiers[i], noun_phrases=noun_phrases, prep_phrase=prep_phrase, adj_phrase=adj_phrase, adverb_phrase=adverb_phrase, transitive=transitive)
             clean_sent.verbal_decomp.append(verb_data)
     return clean_sent
             

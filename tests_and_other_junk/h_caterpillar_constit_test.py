@@ -1,230 +1,82 @@
-NP:  a little egg  VP:  lay on a leaf  SUB:  ('', In the light of the moon)  DIA:  {}
+#I have finally have parsed this text perfectly, according to forseeable
+#requirements. So I am very pleased. I have preserved all the hierarchies I
+#desire.
 
-NP:  [One Sunday morning, the warm sun]  VP:  came up  SUB:  ('', '')  DIA:  {}
-
-NP:  a tiny, very hungry caterpillar  VP:  came  SUB:  ('', out of the egg)  DIA:  {}
-
-NP:  He  VP:  started looking for some food  SUB:  ('', '')  DIA:  {}
-
-NP:  he  VP:  ate through one apple  SUB:  ('', On Monday)  DIA:  {}
-
-NP:  he  VP:  was still hungry  SUB:  ('', '')  DIA:  {}
-
-NP:  he  VP:  ate through two pears  SUB:  ('', On Tuesday)  DIA:  {}
-
-NP:  he  VP:  was still hungry  SUB:  ('', '')  DIA:  {}
-
-NP:  he  VP:  ate through three plums  SUB:  ('', On Wednesday)  DIA:  {}
-
-NP:  he  VP:  was still hungry  SUB:  ('', '')  DIA:  {}
-
-NP:  he  VP:  ate through four strawberries  SUB:  ('', On Thursday)  DIA:  {}
-
-NP:  he  VP:  was still hungry  SUB:  ('', '')  DIA:  {}
-
-NP:  he  VP:  ate through five oranges  SUB:  ('', On Friday)  DIA:  {}
-
-NP:  he  VP:  was still hungry  SUB:  ('', '')  DIA:  {}
-
-NP:  he  VP:  ate through  one piece of chocolate cake, one ice-cream cone, one pickle, one slice of Swiss cheese, one slice of salami, one lollipop, one piece of cherry pie, one sausage, one cupcake, and nd one slice of watermelon  SUB:  ('', On Saturday)  DIA:  {}
-
-NP:  [That night, he]  VP:  had a stomach ache  SUB:  ('', '')  DIA:  {}
-
-NP:  The next day  VP:  was Sunday again  SUB:  ('', '')  DIA:  {}
-
-NP:  The caterpillar  VP:  ate through one nice leaf  SUB:  ('', '')  DIA:  {}
-
-NP:  he  VP:  felt better  SUB:  ('', after that)  DIA:  {}
-
-NP:  he  VP:  wasn\'t a little caterpillar anymore  SUB:  ('', '')  DIA:  {}
-
-NP:  he  VP:  wasn\'t hungry anymore  SUB:  ('', '')  DIA:  {}
-
-NP:  He  VP:  was a big fat caterpillar  SUB:  ('', '')  DIA:  {}
-
-NP:  He  VP:  built a small house, called a cocoon, around himself  SUB:  ('', '')  DIA:  {}
-
-NP:  He  VP:  stayed inside for more than two weeks  SUB:  ('', '')  DIA:  {}
-
-NP:  he  VP:  [nibbled a hole in the cocoon, pushed his way out]  SUB:  ('', '')  DIA:  {}
-
-NP:  He  VP:  became a beautiful butterfly  SUB:  ('', '')  DIA:  {}
-
-
-
-
-Updated after verbal pipe w/ messages. We be piping. More work to do but pretty stoked so far... 
-
-NP:  a little egg  VP:  lay on a leaf  SUB:  ('', In the light of the moon)  DIA:  {}
-Verbs:  [lay]  NP:  None  PP:  on a leaf  Transitive:  False
-'''Assumption violated!
-Couldn't get label for and'''
-
-NP:  [One Sunday morning, the warm sun]  VP:  came up  SUB:  ('', '')  DIA:  {}
-Verbs:  [came]  NP:  None  PP:  None  Transitive:  False
-
-NP:  a tiny, very hungry caterpillar  VP:  came  SUB:  ('', out of the egg)  DIA:  {}
-Verbs:  []  NP:  None  PP:  None  Transitive:  False
-
-NP:  He  VP:  started looking for some food  SUB:  ('', '')  DIA:  {}
-Verbs:  [started, looking for some food]  NP:  None  PP:  None  Transitive:  False
-'''Couldn't get label for'''  
-
-NP:  he  VP:  ate through one apple  SUB:  ('', On Monday)  DIA:  {}
-Verbs:  [ate]  NP:  None  PP:  through one apple  Transitive:  False
-'''Couldn't get label for But'''
-
-NP:  he  VP:  was still hungry  SUB:  ('', '')  DIA:  {}
-Verbs:  [was]  NP:  None  PP:  None  Transitive:  False
-'''Couldn't get label for but'''
-
-NP:  he  VP:  ate through two pears  SUB:  ('', On Tuesday)  DIA:  {}
-Verbs:  [ate]  NP:  None  PP:  through two pears  Transitive:  False
-
-NP:  he  VP:  was still hungry  SUB:  ('', '')  DIA:  {}
-Verbs:  [was]  NP:  None  PP:  None  Transitive:  False
-'''Couldn't get label for but'''
-
-NP:  he  VP:  ate through three plums  SUB:  ('', On Wednesday)  DIA:  {}
-Verbs:  [ate]  NP:  None  PP:  through three plums  Transitive:  False
-
-NP:  he  VP:  was still hungry  SUB:  ('', '')  DIA:  {}
-Verbs:  [was]  NP:  None  PP:  None  Transitive:  False
-'''Couldn't get label for but'''
-
-NP:  he  VP:  ate through four strawberries  SUB:  ('', On Thursday)  DIA:  {}
-Verbs:  [ate]  NP:  None  PP:  through four strawberries  Transitive:  False
-
-NP:  he  VP:  was still hungry  SUB:  ('', '')  DIA:  {}
-Verbs:  [was]  NP:  None  PP:  None  Transitive:  False
-'''Couldn't get label for but'''
-
-NP:  he  VP:  ate through five oranges  SUB:  ('', On Friday)  DIA:  {}
-Verbs:  [ate]  NP:  None  PP:  through five oranges  Transitive:  False
-
-NP:  he  VP:  was still hungry  SUB:  ('', '')  DIA:  {}
-Verbs:  [was]  NP:  None  PP:  None  Transitive:  False
-
-NP:  he  VP:  ate through  one piece of chocolate cake, one ice-cream cone, one pickle, one slice of Swiss cheese, one slice of salami, one lollipop, one piece of cherry pie, one sausage, one cupcake, and one slice of watermelon  SUB:  ('', On Saturday)  DIA:  {}
-Verbs:  [ate]  NP:  one piece of chocolate cake, one ice-cream cone, one pickle, one slice of Swiss cheese, one slice of salami, one lollipop, one piece of cherry pie, one sausage, one cupcake, and one slice of watermelon  PP:  through    Transitive:  True
-'''Assumption violated!'''
-
-NP:  [That night, he]  VP:  had a stomach ache  SUB:  ('', '')  DIA:  {}
-Verbs:  [had]  NP:  a stomach ache  PP:  None  Transitive:  True
-
-NP:  The next day  VP:  was Sunday again  SUB:  ('', '')  DIA:  {}
-Verbs:  [was]  NP:  Sunday  PP:  None  Transitive:  True
-'''Couldn't get label for and'''
-
-NP:  The caterpillar  VP:  ate through one nice leaf  SUB:  ('', '')  DIA:  {}
-Verbs:  [ate]  NP:  None  PP:  through one nice leaf  Transitive:  False
-
-NP:  he  VP:  felt better  SUB:  ('', after that)  DIA:  {}
-Verbs:  [felt]  NP:  None  PP:  None  Transitive:  False
-'''Couldn't get label for and'''
-
-NP:  he  VP:  wasn't a little caterpillar anymore  SUB:  ('', '')  DIA:  {}
-Verbs:  [was]  NP:  a little caterpillar  PP:  None  Transitive:  True
-
-NP:  he  VP:  wasn't hungry anymore  SUB:  ('', '')  DIA:  {}
-Verbs:  [was]  NP:  None  PP:  None  Transitive:  False
-
-NP:  He  VP:  was a big fat caterpillar  SUB:  ('', '')  DIA:  {}
-Verbs:  [was]  NP:  a big fat caterpillar  PP:  None  Transitive:  True
-
-NP:  He  VP:  built a small house, called a cocoon, around himself  SUB:  ('', '')  DIA:  {}
-Verbs:  [built]  NP:  a small house, called a cocoon,  PP:  around himself  Transitive:  True
-
-NP:  He  VP:  stayed inside for more than two weeks  SUB:  ('', '')  DIA:  {}
-Verbs:  [stayed]  NP:  None  PP:  for more than two weeks  Transitive:  False
-'''Assumption violated!
-Couldn't get label for and'''
-
-NP:  he  VP:  [nibbled a hole in the cocoon, pushed his way out]  SUB:  ('', '')  DIA:  {}
-Verbs:  [nibbled]  NP:  a hole  PP:  in the cocoon  Transitive:  True
-Verbs:  [pushed]  NP:  his way  PP:  None  Transitive:  True
-
-NP:  He  VP:  became a beautiful butterfly  SUB:  ('', '')  DIA:  {}
-Verbs:  [became]  NP:  a beautiful butterfly  PP:  None  Transitive:  True
-
-
-Another iteration.. Super cool. We have achieved perfection (except for e.g. "came up" VP. I'll fix next time.). This is truly sublime.
-
-NP: [a little egg]  VP: [lay on a leaf]  SUB: ('', In the light of the moon)  DIA: {}
-Verbs: [lay]  NP: None  PP: on a leaf  ADJP: None  ADVP: None  Transitive: False
+NP: [a little egg]  VP: [lay on a leaf]  SUB: ('', {'NP': the light of the moon, 'prep': In})  DIA: {}
+Verbs: [lay]  Modifier: None  NP: None  PP: {'NP': a leaf, 'prep': on}  ADJP: None  ADVP: None  Transitive: False
 
 NP: [One Sunday morning, the warm sun]  VP: [came up]  SUB: ('', '')  DIA: {}
-Verbs: [came]  NP: None  PP: None  ADJP: None  ADVP: None  Transitive: False
+Verbs: [came]  Modifier: up  NP: None  PP: {}  ADJP: None  ADVP: None  Transitive: False
 
-NP: [a tiny, very hungry caterpillar]  VP: [came]  SUB: ('', out of the egg)  DIA: {}
-Verbs: []  NP: None  PP: None  ADJP: None  ADVP: None  Transitive: False
+NP: [a tiny, very hungry caterpillar]  VP: [came]  SUB: ('', {'NP': the egg, 'prep': of, 'prep0': out})  DIA: {}
+Verbs: []  Modifier: None  NP: None  PP: {}  ADJP: None  ADVP: None  Transitive: False
 
 NP: [He]  VP: [started looking for some food]  SUB: ('', '')  DIA: {}
-Verbs: [started, looking]  NP: None  PP: for some food  ADJP: None  ADVP: None  Transitive: False
+Verbs: [started, looking]  Modifier: None  NP: None  PP: {'NP': some food, 'prep': for}  ADJP: None  ADVP: None  Transitive: False
 
-NP: [he]  VP: [ate through one apple]  SUB: ('', On Monday)  DIA: {}
-Verbs: [ate]  NP: None  PP: through one apple  ADJP: None  ADVP: None  Transitive: False
-
-NP: [he]  VP: [was still hungry]  SUB: ('', '')  DIA: {}
-Verbs: [was]  NP: None  PP: None  ADJP: hungry  ADVP: still  Transitive: False
-
-NP: [he]  VP: [ate through two pears]  SUB: ('', On Tuesday)  DIA: {}
-Verbs: [ate]  NP: None  PP: through two pears  ADJP: None  ADVP: None  Transitive: False
+NP: [he]  VP: [ate through one apple]  SUB: ('', {'NP': Monday, 'prep': On})  DIA: {}
+Verbs: [ate]  Modifier: None  NP: None  PP: {'NP': one apple, 'prep': through}  ADJP: None  ADVP: None  Transitive: False
 
 NP: [he]  VP: [was still hungry]  SUB: ('', '')  DIA: {}
-Verbs: [was]  NP: None  PP: None  ADJP: hungry  ADVP: still  Transitive: False
+Verbs: [was]  Modifier: None  NP: None  PP: {}  ADJP: hungry  ADVP: still  Transitive: False
 
-NP: [he]  VP: [ate through three plums]  SUB: ('', On Wednesday)  DIA: {}
-Verbs: [ate]  NP: None  PP: through three plums  ADJP: None  ADVP: None  Transitive: False
-
-NP: [he]  VP: [was still hungry]  SUB: ('', '')  DIA: {}
-Verbs: [was]  NP: None  PP: None  ADJP: hungry  ADVP: still  Transitive: False
-
-NP: [he]  VP: [ate through four strawberries]  SUB: ('', On Thursday)  DIA: {}
-Verbs: [ate]  NP: None  PP: through four strawberries  ADJP: None  ADVP: None  Transitive: False
+NP: [he]  VP: [ate through two pears]  SUB: ('', {'NP': Tuesday, 'prep': On})  DIA: {}
+Verbs: [ate]  Modifier: None  NP: None  PP: {'NP': two pears, 'prep': through}  ADJP: None  ADVP: None  Transitive: False
 
 NP: [he]  VP: [was still hungry]  SUB: ('', '')  DIA: {}
-Verbs: [was]  NP: None  PP: None  ADJP: hungry  ADVP: still  Transitive: False
+Verbs: [was]  Modifier: None  NP: None  PP: {}  ADJP: hungry  ADVP: still  Transitive: False
 
-NP: [he]  VP: [ate through five oranges]  SUB: ('', On Friday)  DIA: {}
-Verbs: [ate]  NP: None  PP: through five oranges  ADJP: None  ADVP: None  Transitive: False
+NP: [he]  VP: [ate through three plums]  SUB: ('', {'NP': Wednesday, 'prep': On})  DIA: {}
+Verbs: [ate]  Modifier: None  NP: None  PP: {'NP': three plums, 'prep': through}  ADJP: None  ADVP: None  Transitive: False
 
 NP: [he]  VP: [was still hungry]  SUB: ('', '')  DIA: {}
-Verbs: [was]  NP: None  PP: None  ADJP: hungry  ADVP: still  Transitive: False
+Verbs: [was]  Modifier: None  NP: None  PP: {}  ADJP: hungry  ADVP: still  Transitive: False
 
-NP: [he]  VP: [ate through  one piece of chocolate cake, one ice-cream cone, one pickle, one slice of Swiss cheese, one slice of salami, one lollipop, one piece of cherry pie, one sausage, one cupcake, and one slice of watermelon]  SUB: ('', On Saturday)  DIA: {}
-Verbs: [ate]  NP: [one piece of chocolate cake, one ice-cream cone, one pickle, one slice of Swiss cheese, one slice of salami, one lollipop, one piece of cherry pie, one sausage, one cupcake, and one slice of watermelon]  PP: through    ADJP: None  ADVP: None  Transitive: True
+NP: [he]  VP: [ate through four strawberries]  SUB: ('', {'NP': Thursday, 'prep': On})  DIA: {}
+Verbs: [ate]  Modifier: None  NP: None  PP: {'NP': four strawberries, 'prep': through}  ADJP: None  ADVP: None  Transitive: False
+
+NP: [he]  VP: [was still hungry]  SUB: ('', '')  DIA: {}
+Verbs: [was]  Modifier: None  NP: None  PP: {}  ADJP: hungry  ADVP: still  Transitive: False
+
+NP: [he]  VP: [ate through five oranges]  SUB: ('', {'NP': Friday, 'prep': On})  DIA: {}
+Verbs: [ate]  Modifier: None  NP: None  PP: {'NP': five oranges, 'prep': through}  ADJP: None  ADVP: None  Transitive: False
+
+NP: [he]  VP: [was still hungry]  SUB: ('', '')  DIA: {}
+Verbs: [was]  Modifier: None  NP: None  PP: {}  ADJP: hungry  ADVP: still  Transitive: False
+
+NP: [he]  VP: [ate through  one piece of chocolate cake, one ice-cream cone, one pickle, one slice of Swiss cheese, one slice of salami, one lollipop, one piece of cherry pie, one sausage, one cupcake, and one slice of watermelon]  SUB: ('', {'NP': Saturday, 'prep': On})  DIA: {}
+Verbs: [ate]  Modifier: None  NP: [one piece of chocolate cake, one ice-cream cone, one pickle, one slice of Swiss cheese, one slice of salami, one lollipop, one piece of cherry pie, one sausage, one cupcake, and one slice of watermelon]  PP: {'NP':  , 'prep': through}  ADJP: None  ADVP: None  Transitive: True
 
 NP: [That night, he]  VP: [had a stomach ache]  SUB: ('', '')  DIA: {}
-Verbs: [had]  NP: [a stomach ache]  PP: None  ADJP: None  ADVP: None  Transitive: True
+Verbs: [had]  Modifier: None  NP: [a stomach ache]  PP: {}  ADJP: None  ADVP: None  Transitive: True
 
 NP: [The next day]  VP: [was Sunday again]  SUB: ('', '')  DIA: {}
-Verbs: [was]  NP: [Sunday]  PP: None  ADJP: None  ADVP: again  Transitive: True
+Verbs: [was]  Modifier: None  NP: [Sunday]  PP: {}  ADJP: None  ADVP: again  Transitive: True
 
 NP: [The caterpillar]  VP: [ate through one nice leaf]  SUB: ('', '')  DIA: {}
-Verbs: [ate]  NP: None  PP: through one nice leaf  ADJP: None  ADVP: None  Transitive: False
+Verbs: [ate]  Modifier: None  NP: None  PP: {'NP': one nice leaf, 'prep': through}  ADJP: None  ADVP: None  Transitive: False
 
-NP: [he]  VP: [felt better]  SUB: ('', after that)  DIA: {}
-Verbs: [felt]  NP: None  PP: None  ADJP: None  ADVP: better  Transitive: False
+NP: [he]  VP: [felt better]  SUB: ('', {'NP': that, 'prep': after})  DIA: {}
+Verbs: [felt]  Modifier: None  NP: None  PP: {}  ADJP: None  ADVP: better  Transitive: False
 
 NP: [he]  VP: [wasn't a little caterpillar anymore]  SUB: ('', '')  DIA: {}
-Verbs: [was]  NP: [a little caterpillar]  PP: None  ADJP: None  ADVP: anymore  Transitive: True
+Verbs: [was]  Modifier: n't  NP: [a little caterpillar]  PP: {}  ADJP: None  ADVP: anymore  Transitive: True
 
 NP: [he]  VP: [wasn't hungry anymore]  SUB: ('', '')  DIA: {}
-Verbs: [was]  NP: None  PP: None  ADJP: hungry  ADVP: anymore  Transitive: False
+Verbs: [was]  Modifier: n't  NP: None  PP: {}  ADJP: hungry  ADVP: anymore  Transitive: False
 
 NP: [He]  VP: [was a big fat caterpillar]  SUB: ('', '')  DIA: {}
-Verbs: [was]  NP: [a big fat caterpillar]  PP: None  ADJP: None  ADVP: None  Transitive: True
+Verbs: [was]  Modifier: None  NP: [a big fat caterpillar]  PP: {}  ADJP: None  ADVP: None  Transitive: True
 
 NP: [He]  VP: [built a small house, called a cocoon, around himself]  SUB: ('', '')  DIA: {}
-Verbs: [built]  NP: [a small house, called a cocoon,]  PP: around himself  ADJP: None  ADVP: None  Transitive: True
+Verbs: [built]  Modifier: None  NP: [a small house, called a cocoon,]  PP: {'NP': himself, 'prep': around}  ADJP: None  ADVP: None  Transitive: True
 
 NP: [He]  VP: [stayed inside for more than two weeks]  SUB: ('', '')  DIA: {}
-Verbs: [stayed]  NP: None  PP: for more than two weeks  ADJP: None  ADVP: inside  Transitive: False
+Verbs: [stayed]  Modifier: None  NP: None  PP: {'NP': more than two weeks, 'prep': for}  ADJP: None  ADVP: inside  Transitive: False
 
 NP: [he]  VP: [nibbled a hole in the cocoon, pushed his way out]  SUB: ('', '')  DIA: {}
-Verbs: [nibbled]  NP: [a hole]  PP: in the cocoon  ADJP: None  ADVP: None  Transitive: True
-Verbs: [pushed]  NP: [his way]  PP: in the cocoon  ADJP: None  ADVP: None  Transitive: True
+Verbs: [nibbled]  Modifier: None  NP: [a hole]  PP: {'NP': the cocoon, 'prep': in}  ADJP: None  ADVP: None  Transitive: True
+Verbs: [pushed]  Modifier: None  NP: [his way]  PP: {}  ADJP: None  ADVP: out  Transitive: True
 
 NP: [He]  VP: [became a beautiful butterfly]  SUB: ('', '')  DIA: {}
-Verbs: [became]  NP: [a beautiful butterfly]  PP: None  ADJP: None  ADVP: None  Transitive: True
+Verbs: [became]  Modifier: None  NP: [a beautiful butterfly]  PP: {}  ADJP: None  ADVP: None  Transitive: True
