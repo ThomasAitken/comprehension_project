@@ -20,4 +20,6 @@ Project remains messy but a concrete few things have been developed now (nothing
 
 * Set up basic requirements for loading data into database (but no data being produced as yet)
 * Developed a relatively simple decomposition/flattening algorithm for representing conceptual distance on the 2d plane (in *database/semantic_map.py*.. thought it could be of use but I think the 2d representation is untenable - need to preserve a high-dimensional representation for analysis))
-* Have developed the beginnings of the first stage of the text-processing pipeline I'm developing, testing it on Hungry Caterpillar (sue me). Main work being done by *constituency.py* in *parsing*. Feeling happy with progress so far, perusable in *tests_and_other_junk/h_caterpillar_constit_test.py*
+* Have developed the beginnings of the first stage of the text-processing pipeline I'm developing, testing it on Hungry Caterpillar (sue me):
+  * Have now completed a full, working constituency parse prototype.
+
