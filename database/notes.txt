@@ -1,0 +1,18 @@
+Two benefits to category-similarity vectors in DB: 
+    (i) Saves compute - look up instead of computing.
+    (ii) Possibility to perform complex data-mining algorithms, in particular, the following... 
+
+
+Things to do with DB:
+    (i) Demonstrate hypothesis that categories should be at the centre of clouds (actually, high-dimensional spheres), with radii scaling with the 'level' of the category in the hierarchical category. These clouds should, in theory, represent the set of concepts bound to the concept at the centre, with increasing peripherality indicating decreased 'fittingness'.
+        * In theory, there should be some radius - very large but not too large - where "thing", placed at the centre of this hypersphere - should be attracting the most concepts (some radius at which it becomes true that the sphere with the greatest number of contained concepts is some generic word like "thing" or "entity").
+        * At a lower radius, it should be the case that "animal" has the same property, "mammal" at a lower radius still, then "dog", then "labrador", etc
+    (ii) Determine mapping of 'level' to radii empirically.
+    (iii) Identify what are the appropriate categories at each level. Algorithm:
+        For each entry in DB:
+            record how similar it is to every other entry and store data about number of concepts inside sphere 
+        Find top n entries. See if that needs to be refined ....
+
+        (Element of judgment)
+
+Simple once appropriate radii discovered

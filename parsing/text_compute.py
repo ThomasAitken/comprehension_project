@@ -9,6 +9,7 @@
 #             Marker can be non-living or living (as in above)
 #
 from parsing.constituency import *
+from parsing.context_tracking import *
 import sys
 # print(sys.path)  
 from database.sqlite import *
@@ -19,20 +20,25 @@ import spacy
 import math
 import json
 
+chapter = {}
 
-def parse_sentences_updated(sentences: list):
+def parse_paragraph(doc):
+    sentences = list(doc.sents)
+    pristine_sentences = []
     for sent in sentences:
         cleaned_sentences = constituency_parse(sent)
-        for cleaned_sent in cleaned_sentences:
-            cleaned_sent = parse_verb_phrase(cleaned_sent)
-            print(cleaned_sent)
-            # print("NP: {}  VP: {}  SUB: {}  DIA: {}".format(cleaned_sent.noun_phrases, cleaned_sent.verb_phrases, cleaned_sent.subordinates, cleaned_sent.dialogue_meta))
-            # print("Verbs: {}  Modifier: {}  NP: {}  PP: {}  ADJP: {}  ADVP: {}  Transitive: {}".format(cleaned_sent.verbal_decomp[0].verbs, cleaned_sent.verbal_decomp[0].modifier, cleaned_sent.verbal_decomp[0].noun_phrases, cleaned_sent.verbal_decomp[0].prep_phrase, cleaned_sent.verbal_decomp[0].adj_phrase, cleaned_sent.verbal_decomp[0].adverb_phrase, cleaned_sent.verbal_decomp[0].transitive))
-            # if len(cleaned_sent.verbal_decomp) > 1:
-            #     print("Verbs: {}  Modifier: {}  NP: {}  PP: {}  ADJP: {}  ADVP: {}  Transitive: {}".format(cleaned_sent.verbal_decomp[1].verbs, cleaned_sent.verbal_decomp[0].modifier, cleaned_sent.verbal_decomp[1].noun_phrases, cleaned_sent.verbal_decomp[0].prep_phrase, cleaned_sent.verbal_decomp[0].adj_phrase, cleaned_sent.verbal_decomp[0].adverb_phrase, cleaned_sent.verbal_decomp[0].transitive))
+        pristine_sentences = [parse_verb_phrase(cleaned_sent) for cleaned_sent in cleaned_sentences]
+    
+    analyse_events(pristine_sentences, doc, chapter)
+
+    print(chapter)
+    return pristine_sentences
+        # for cleaned_sent in cleaned_sentences:
+        #     cleaned_sent = parse_verb_phrase(cleaned_sent)
+        #     print(cleaned_sent)
 
 
-def parse_sentences(sentences: list):
+def parse_sentences1(sentences: list):
     nouns = []
     verbs = []
     for sentence in sentences:

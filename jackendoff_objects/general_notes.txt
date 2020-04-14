@@ -22,4 +22,11 @@ In the meantime, need to develop further data/memory systems. An event/agent log
 
 Then also specific entity memory... Because of course concept memory is not enough; we want rich memories associated with specific buildings, tools, games, landmarks, places, etc. ... Now this may be not best implemented in this kind of text-based context.
 
-These could be very neatly compartmentalised in theory, although this would of course come with massive redundancy - but, frankly, static memory capacity doesn't seem like a huge theoretical bottleneck.. Of course the memory storage that would be going on after 1000s of hours of training in a rich virtual world where events are constantly being perceived, new properties gleaned from objects, and so on
+These could be very neatly compartmentalised in theory, although this would of course come with massive redundancy - but, frankly, static memory capacity doesn't seem like a huge theoretical bottleneck.. Of course the memory storage that would be going on after 1000s of hours of training in a rich virtual world where events are constantly being perceived, new properties gleaned from objects, and so on\
+
+
+
+Need to implement knowledge of Maslow's Hierarchy of Needs in order to make inferences about motivations, e.g. Why "eat"? Because "hungry" because basic need. Why "go outside for a walk"? Can this be reduced ultimately to some kind of need? If so... 
+
+
+BOOTSTRAP DEEP LEARNING OF ENTIRE COMMONSENSE MODELS OF THE WORLD IN RELATION TO SPECIFIC CAUSAL CONTEXTS... CREATE DATASETS with sentnece/event data with event whose cause needs to be explained + possible cause-candidate events.. Classify which event is cause.

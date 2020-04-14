@@ -11,7 +11,7 @@ import spacy
 from benepar.spacy_plugin import BeneparComponent
 import logging
 import re
-from parsing.text_compute import parse_sentences_updated
+from parsing.text_compute import parse_sentences
 import pdb
 logger = logging.getLogger(__name__)
 def parse_file(file_path: str) -> list:
@@ -39,15 +39,17 @@ def parse_file(file_path: str) -> list:
         nlp = spacy.load("en_core_web_lg")
         nlp.add_pipe(BeneparComponent("benepar_en2"))
         f = open(file_path, "r")
-        for idx,row in enumerate(filter(lambda line: line != "", map(lambda line: line.strip('\n'), f.readlines()))):
+        for idx,paragraph in enumerate(filter(lambda line: line != "", map(lambda line: line.strip('\n'), f.readlines()))):
             if idx == 0:
-                title = row
+                title = paragraph
                 print(title)
                 continue
             else:
-                doc = nlp(row)
-            grammatical_sentences = list(doc.sents)
-            parse_sentences_updated(grammatical_sentences)
+                doc = nlp(paragraph)
+            # grammatical_sentences = list(doc.sents)
+            parse_paragraph(doc)
+
+
             # print(list(grammatical_sentences[0]))
             # pdb.set_trace()
         f.close()
