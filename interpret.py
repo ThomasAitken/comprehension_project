@@ -11,8 +11,9 @@ import spacy
 from benepar.spacy_plugin import BeneparComponent
 import logging
 import re
-from parsing.text_compute import parse_sentences
+from parsing.text_compute import parse_paragraph
 import pdb
+logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 def parse_file(file_path: str) -> list:
     def convert_bytes(num):
@@ -39,15 +40,17 @@ def parse_file(file_path: str) -> list:
         nlp = spacy.load("en_core_web_lg")
         nlp.add_pipe(BeneparComponent("benepar_en2"))
         f = open(file_path, "r")
+        chapter = {}
         for idx,paragraph in enumerate(filter(lambda line: line != "", map(lambda line: line.strip('\n'), f.readlines()))):
             if idx == 0:
                 title = paragraph
-                print(title)
+                chapter["Title"] = title
                 continue
             else:
                 doc = nlp(paragraph)
+                chapter["Paragraphs"] = chapter.get("Paragraphs", []) + [parse_paragraph(doc)]
+        print(chapter)
             # grammatical_sentences = list(doc.sents)
-            parse_paragraph(doc)
 
 
             # print(list(grammatical_sentences[0]))

@@ -21,14 +21,15 @@ VBZ	VERB	VerbForm=fin Tense=pres Number=sing Person=three	verb, 3rd person singu
 #same level, e.g. "He killed a man, then buried the body" has two VPs. Hence
 #pluralisation
 class StandardSentence(object):
-    def __init__(self, noun_phrases: list, verb_phrases: list, subordinates: tuple, dialogue_meta = {}, verbal_decomp=[]):
+    def __init__(self, noun_phrases: list, verb_phrases: list, subordinates: tuple, unparsed_text: str, dialogue_meta = {}, verbal_decomp=[]):
         self.noun_phrases = noun_phrases
         self.verb_phrases = verb_phrases
         self.subordinates = subordinates
+        self.unparsed_text = unparsed_text
         self.dialogue_meta = dialogue_meta
         self.verbal_decomp = verbal_decomp
 
-    def __repr__(self):
+    def __str__(self):
         base = "NP: {}  VP: {}  SUB: {}  DIA: {}".format(self.noun_phrases, self.verb_phrases, self.subordinates, self.dialogue_meta)
         for verb_component in self.verbal_decomp:
             base += "\nVerbs: {}  Modifier: {}  NP: {}  PP: {}  ADJP: {}  ADVP: {}  Transitive: {}".format(verb_component.verbs, verb_component.modifier, verb_component.noun_phrases, verb_component.prep_phrase, verb_component.adj_phrase, verb_component.adverb_phrase, verb_component.transitive)
@@ -163,13 +164,13 @@ def parse_prep_phrase(prep_phrase, prep0=None)->dict:
     return prep_phrase
 
 def constituency_parse(sentence):
+    unparsed_sentence = sentence.text
     dialogue_data = dialogue_parse(sentence)
     clean_sentences = []
     if not dialogue_data:
         parsed = neaten_sentence(sentence)
     else:
         parsed = neaten_sentence(dialogue_data["utterance"])
-
     for output in parsed:
         if type(output) == dict and len(output) > 1:
             clean_sentences.append(output)
@@ -193,7 +194,7 @@ def constituency_parse(sentence):
         prep_phrase = clean_sent.get("PP", "")
         if prep_phrase:
             prep_phrase = parse_prep_phrase(prep_phrase)
-        yield StandardSentence(noun_phrases=noun_phrases, verb_phrases=verb_phrases, subordinates=(sbar, prep_phrase), dialogue_meta=dialogue_data)
+        yield StandardSentence(noun_phrases=noun_phrases, verb_phrases=verb_phrases, unparsed_text=unparsed_sentence, subordinates=(sbar, prep_phrase), dialogue_meta=dialogue_data)
 
 
 

@@ -1,7 +1,7 @@
 '''CHAPTER_GENERIC = 
     {"Paragraphs": [
-        {"Basic location":"", 
-        "Temporal location relative to previous paragraph":"", 
+        {"Generic location":"", 
+        # "Temporal location relative to previous paragraph":"", 
         "Characters involved":[...], (((("character_x": {"Known stable properties": [], "Significance": [main, subsidiary]}, "Last known states":[])))),
         "Extant entities":"",
         "Events": [
@@ -27,4 +27,3 @@
     ]  
     }
 '''
-chapter = {}

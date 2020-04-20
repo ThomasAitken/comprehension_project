@@ -74,10 +74,32 @@ apple 0.20133079997660672 0.3607391636060644 [[[5th sentence word]]]
 [[[children]]]  [My favourite fruit, by far, is apple, .]
 '''
 
-from benepar.spacy_plugin import BeneparComponent
-nlp.add_pipe(BeneparComponent("benepar_en2"))
-doc = nlp(u"I wonder if this sentence is long enough to have a parent and a child, such that it will help me identifying what those terms are supposed to mean. Apples, a wonderfully versatile fruit, are still no match for peaches, which are the ultimate in adaptability. Batman and Superman fought out a terrible and bloody conflict, each suffering injuries. I love to annoy the angry pedants who love to annoy those who speak colloquially.")
-for sent in list(doc.sents):
-    print(sent._.parse_string)
-    print(sent._.parent)
-    print(list(sent._.children))
+# from benepar.spacy_plugin import BeneparComponent
+# nlp.add_pipe(BeneparComponent("benepar_en2"))
+# doc = nlp(u"I wonder if this sentence is long enough to have a parent and a child, such that it will help me identifying what those terms are supposed to mean. Apples, a wonderfully versatile fruit, are still no match for peaches, which are the ultimate in adaptability. Batman and Superman fought out a terrible and bloody conflict, each suffering injuries. I love to annoy the angry pedants who love to annoy those who speak colloquially.")
+# for sent in list(doc.sents):
+#     print(sent._.parse_string)
+#     print(sent._.parent)
+#     print(list(sent._.children))
+
+# doc=nlp(u"Abstract; universal; emotion; thought")
+# doc1 = nlp(u"Tangible; useful; common; physical; object")
+# concrete_things = [nlp("leaf"), nlp("table"), nlp("book"), nlp("spaghetti"), nlp("tree"), nlp("cat")]
+# abstract_things = [nlp("mathematics"), nlp("physics"), nlp("love"), nlp("light"), nlp("energy")]
+
+# for thing in concrete_things:
+#     print(thing, "abstraction similarity: %f" % thing.similarity(doc), "concreteness similarity: %f" % thing.similarity(doc1))
+# for thing in abstract_things:
+#     print(thing, "abstraction similarity: %f" % thing.similarity(doc), "concreteness similarity: %f" % thing.similarity(doc1))
+
+category_tokens = [nlp(u"mammal"), nlp(u"reptile"), nlp(u"insect"), nlp(u"fish"), nlp(u"business"), nlp(u"building"), nlp(u"infrastructure"), nlp(u"event"), nlp(u"date"), nlp(u"activity"), nlp(u"game"), nlp(u"sport"), nlp(u"country"), nlp(u"city"), nlp(u"state"), nlp(u"language"), nlp(u"location"), nlp(u"person"), nlp(u"plant"), nlp(u"tree"), nlp(u"product"), nlp(u"food"), nlp(u"tool"), nlp(u"toy"), nlp(u"work of art"), nlp(u"object"), nlp(u"rock"), nlp(u"mineral"), nlp(u"appliance"), nlp(u"app"), nlp(u"emotion"), nlp(u"happiness"), nlp(u"sadness"), nlp(u"anger"), nlp(u"surprise"), nlp(u"container"), nlp(u"science")]
+
+doc = nlp("the light of the moon")
+doc1 = nlp("the sun came up")
+# for c_t in category_tokens:
+#     print(c_t, doc.similarity(c_t))
+print(doc.similarity(nlp("night, night-time")))
+print(doc.similarity(nlp("day, day-time")))
+print(doc1.similarity(nlp("day, day-time")))
+for ent in nlp("One Sunday morning").ents:
+    print(ent.label_, ent.text)

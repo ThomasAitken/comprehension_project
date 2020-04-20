@@ -1,6 +1,7 @@
 import spacy
 import os
-
+import logging
+logger = logging.getLogger(__name__)
 nlp = spacy.load("en_core_web_lg")
 # from benepar.spacy_plugin import BeneparComponent
 # nlp.add_pipe(BeneparComponent("benepar_en2"))
@@ -29,3 +30,19 @@ basic_concepts = ["organism", "non-organism", "process", "static_entity"]
 verbal_concepts = ["injury", "entity_movement", "gesture"]
 
 basic_verbal_concepts = ["action", "process"]
+
+def classify_(text, tokens=[])->tuple:
+    #returns tuple containing category token to which input was most similar, plus similarity score
+    if tokens:
+        category_tokens = tokens
+    try:
+        max_token = max([(c_t, c_t.similarity(text)) for c_t in category_tokens], key=lambda c_t: c_t[1])
+    except:
+        logger.error("Can't get max-sim token. Input too large?")
+        return ()
+    if max_token[1] < 0.5:
+        logger.info("Unclassifiable!")
+        return ()
+    else:
+        return max_token
+        

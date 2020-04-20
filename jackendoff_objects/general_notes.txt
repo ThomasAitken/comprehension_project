@@ -26,7 +26,44 @@ These could be very neatly compartmentalised in theory, although this would of c
 
 
 
-Need to implement knowledge of Maslow's Hierarchy of Needs in order to make inferences about motivations, e.g. Why "eat"? Because "hungry" because basic need. Why "go outside for a walk"? Can this be reduced ultimately to some kind of need? If so... 
+Need to implement knowledge of Maslow's Hierarchy of Needs in order to make inferences about motivations, e.g. Why "eat"? Because "hungry" because basic need. Why "go outside for a walk"? Can this be reduced ultimately to some kind of need? If so...
+
+identify "for" as a substitute for "in order to do"; identify "to" as a subsitute for "in order to". USe semantic similarity to classify ultimate purpose in question in terms of Maslow Hierarchy. 
 
 
 BOOTSTRAP DEEP LEARNING OF ENTIRE COMMONSENSE MODELS OF THE WORLD IN RELATION TO SPECIFIC CAUSAL CONTEXTS... CREATE DATASETS with sentnece/event data with event whose cause needs to be explained + possible cause-candidate events.. Classify which event is cause.
+
+The ultimate way to acquire a commonsense model of the world? 
+
+
+Phrases of form: 'The X of the Y' give direct information about kind of properties that Y can have = valuable info in world-model.
+Similarly: 'Its X' or 'Her Y'. 
+
+
+TWO DATABASES:
+First DB stores concepts and associated meaning vectors in terms of universal category terms.. 
+    Do we continuously 'calibrate' concepts as follows? :
+        Initial vector = average of phrase-level and atomic vectors. 
+        If same word appears then test similarity to ave of phrase-level/atomic vectors for word in new context... Compute difference and decide if bifurcation needs to occur. So some threshold, but arbitrary ... Work manually initially until a threshold can be determined by classification... Complex data pipeline. (Or decision rule = IF top category = top category and {cat_2, cat_3} = {cat_2, cat_3} then calibrate ELSE bifurcate)
+
+Entity information:
+    People/characters: [associated descriptors (w/ count of frequency for each, to measure strength of association),  known stable properties, key events (Maslow hierarchy --> self-actualisation???)]
+    Objects/living beings/other: //
+
+    Associated descriptors, if sufficiently strongly associated, essentially become known stable properties associated with all members of the class... e.g. it's a fair indication that if 'creepy' always paired with cockroaches then that is a property that is (strongly) associated with all cockroaches, not with a subset.
+
+
+    THOUGHT: Need to use Wolfram knowledge-base as base... https://products.wolframalpha.com/summary-boxes-api/documentation/. Exciting thought that I don't need to bootstrap.
+
+
+
+
+STEPHEN WOLFRAM on history of symbolic AI/expert systems and position of Wolfram Language therein (interview with Lex Fridman, timestamp 2:23):
+    Paraphrase: "Problem with historic expert systems not ambitious enough. Can't do natural-language understanding properly within domain unless you take on the whole problem of building a system that understands the world in general. This is what Wolfram Language did." [[[editorial: because human language is intertwined with human understanding of the world and to interpret even a single NL sentence properly you typically need to draw on some subset of rich common-sense models of space, time, physics, human behaviour, emotions, etc, and more 'static' knowledge about specific entities and their properties]]].
+
+    Agree! My first model of the world is entirely represented in the Spacy Word2Vec model and in the rules I'm encoding to maximally exploit it. But with more data-collection and training I can hopefully 
+
+
+
+
+

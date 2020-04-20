@@ -8,31 +8,29 @@
 #Task: (i) Identify two locations or direction of movement with respect to some marker... 
 #             Marker can be non-living or living (as in above)
 #
-from parsing.constituency import *
-from parsing.context_tracking import *
+from .constituency import constituency_parse, parse_verb_phrase
+from .context_tracking import analyse_events
 import sys
 # print(sys.path)  
 from database.sqlite import *
 # from database.lists import *
 import os
-from parsing.utils import category_tokens
+from .utils import category_tokens
 import spacy
 import math
 import json
 
-chapter = {}
+paragraph_data = {}
 
 def parse_paragraph(doc):
     sentences = list(doc.sents)
     pristine_sentences = []
     for sent in sentences:
         cleaned_sentences = constituency_parse(sent)
-        pristine_sentences = [parse_verb_phrase(cleaned_sent) for cleaned_sent in cleaned_sentences]
-    
-    analyse_events(pristine_sentences, doc, chapter)
+        pristine_sentences += [parse_verb_phrase(cleaned_sent) for cleaned_sent in cleaned_sentences]
+    analyse_events(pristine_sentences, doc, paragraph_data)
 
-    print(chapter)
-    return pristine_sentences
+    return paragraph_data
         # for cleaned_sent in cleaned_sentences:
         #     cleaned_sent = parse_verb_phrase(cleaned_sent)
         #     print(cleaned_sent)

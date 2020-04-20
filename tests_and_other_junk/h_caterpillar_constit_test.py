@@ -2,6 +2,8 @@
 #requirements. So I am very pleased. I have preserved all the hierarchies I
 #desire.
 
+#Let us call this representation the 'Meaningful structure' of the sentence. So far I'm happy with the assumption that I can squeeze any sentence into this format and not lose relevant information.
+
 NP: [a little egg]  VP: [lay on a leaf]  SUB: ('', {'NP': the light of the moon, 'prep': In})  DIA: {}
 Verbs: [lay]  Modifier: None  NP: None  PP: {'NP': a leaf, 'prep': on}  ADJP: None  ADVP: None  Transitive: False
 
